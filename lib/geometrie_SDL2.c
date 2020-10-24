@@ -98,7 +98,7 @@ void CreateCircle(SDL_Renderer *renderer, int centrx, int centry, int ray, int r
                SDL_RenderDrawPoints(renderer,cercle , res);
 }
 
-void CreateRectangle(SDL_Renderer *renderer, int centrx, int centry, int sizex, int sizey, int r, int g, int b, int a, bool fill) {
+int CreateRectangle(SDL_Renderer *renderer, int centrx, int centry, int sizex, int sizey, int r, int g, int b, int a, bool fill) {
         SDL_SetRenderDrawColor(renderer, r, g, b, a);
         if (fill) {
                 SDL_Point fillrect[sizex*sizey];
@@ -110,7 +110,7 @@ void CreateRectangle(SDL_Renderer *renderer, int centrx, int centry, int sizex, 
                                 counter ++;
                         }
                 }
-                SDL_RenderDrawPoints(renderer, fillrect, sizex*sizey);
+                return (SDL_RenderDrawPoints(renderer, fillrect, sizex*sizey));
         }
         else {
                 SDL_Point cote1[sizey];
@@ -132,7 +132,7 @@ void CreateRectangle(SDL_Renderer *renderer, int centrx, int centry, int sizex, 
                 SDL_RenderDrawPoints(renderer, cote1, sizey);
                 SDL_RenderDrawPoints(renderer, cote2, sizex);
                 SDL_RenderDrawPoints(renderer, cote3, sizey);
-                SDL_RenderDrawPoints(renderer, cote4, sizex);
+                return (SDL_RenderDrawPoints(renderer, cote4, sizex));
         }
 }
 

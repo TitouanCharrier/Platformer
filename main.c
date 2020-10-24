@@ -32,14 +32,17 @@ int main() {
 	SDL_RenderPresent(renderer);
 
  	Hitbox HeroBox;
-	HeroBox.centrx = SCR_W/2;
+	HeroBox.centrx = SCR_W/4;
 	HeroBox.centry = SCR_H/2;
 	HeroBox.sizex = 25;
 	HeroBox.sizey = 50;
-
+	
 	Hitbox FloorBox;
-	FloorBox.centrx	= SCR_W/2;
-	FloorBox.centry = SCR_H-50; 
+	FloorBox.centrx = SCR_W/2;
+	FloorBox.centry = SCR_H/2;
+	FloorBox.sizex = 100;
+	FloorBox.sizey = 100;
+
 
 	RegulPoly(renderer, 5, 100, 1366/2, 768/2,1, 255, 0,0,0, 0);
 
@@ -47,13 +50,16 @@ int main() {
 
 	while (run) {
 		while (SDL_PollEvent(&event)) {
-			HeroBox = MoveHero(renderer, HeroBox, event);
+			HeroBox = MoveHero(renderer, HeroBox, FloorBox, 10, event);
 			if (event.key.keysym.sym == SDLK_ESCAPE) {
 				run = 0;
 			}
-		RegulPoly(renderer, 6, 100, 1366/2, 768/2, 1, 0,255,0,0, 0);
-		SDL_RenderPresent(renderer);	
+		CreateRectangle(renderer, SCR_W/2, SCR_H/2, 100, 100, 0, 255, 0, 255, 1);
+		SDL_RenderPresent(renderer);
+		SDL_SetRenderDrawColor(renderer, 0,0,0,0);	
+		SDL_Delay(16);
 		}
+	SDL_Delay(16);
 	}	
 	//on quitte proprement (je crois) SDL_DestroyRenderer(renderer);
 	SDL_Quit();

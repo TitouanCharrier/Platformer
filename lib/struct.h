@@ -8,8 +8,11 @@ typedef struct Hitbox {
         int sizey;
 }Hitbox;
 
-typedef struct Mouvement {
-	Hitbox subject;
-	SDL_Event event;
-} Mouvement;
-
+typedef struct Rect {
+	char type;
+	int centrx;
+	int centry;
+	Hitbox Hitbox;
+	int sizex;
+	int sizey;
+} Rect;

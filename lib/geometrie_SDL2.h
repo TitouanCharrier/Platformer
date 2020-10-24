@@ -14,5 +14,5 @@ int RegulPoly(SDL_Renderer *renderer,int nbrCote,int tailleCote,int centrx,int c
 
 void CreateCircle(SDL_Renderer *renderer, int centrx, int centry, int ray, int r, int g, int b, int a);
 
-void CreateRectangle(SDL_Renderer *renderer, int centrx, int centry, int sizex, int sizey, int r, int g, int b, int a, bool fill);
+int CreateRectangle(SDL_Renderer *renderer, int centrx, int centry, int sizex, int sizey, int r, int g, int b, int a, bool fill);
 

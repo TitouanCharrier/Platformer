@@ -6,6 +6,8 @@
 #define pi 3.14159265358979323846264338379
 #define False 0
 #define True 1
+#define SPEED 10
+#define JUMP_H
 
 int main() {
 
@@ -44,6 +46,22 @@ int main() {
 	FloorBox.sizey = 100;
 	
 	int *p_HeroBox = &HeroBox;
+	
+	MoveHeroArgs MoveHero_args;
+	MoveHero_args.renderer = renderer;
+	MoveHero_args.p_HeroBox = p_HeroBox;
+	MoveHero_args.speed = SPEED;
+	MoveHero_args.FloorBox = FloorBox;
+	
+	int *p_MoveHero_args = &MoveHero_args;
+
+	JumpArgs Jump_args;
+	Jump_args.jump_H = 10;
+	Jump_args.renderer = renderer;
+	Jump_args.speed = SPEED;
+	Jump_args.FloorBox = FloorBox;
+
+	int *p_Jump_args = &Jump_args;
 
 	RegulPoly(renderer, 5, 100, 1366/2, 768/2,1, 255, 0,0,0, 0);
 
@@ -51,9 +69,11 @@ int main() {
 
 	while (run) {
 		while (SDL_PollEvent(&event)) {
+			MoveHero_args.event = event;
+			Jump_args.event = event;
 			pthread_t threads[2];
-			pthread_create(&threads[1], NULL, MoveHero , (void *)1);
-			pthread_create(&threads[2], NULL, (HeroBox = Jump(renderer, HeroBox, FloorBox, 2, 10, event)), (void *)2);
+			pthread_create(&threads[1], NULL, MoveHero , p_MoveHero_args);
+			pthread_create(&threads[2], NULL, Jump, p_Jump_args);
 			if (event.key.keysym.sym == SDLK_ESCAPE) {
 				run = 0;
 			}

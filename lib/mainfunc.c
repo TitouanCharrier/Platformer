@@ -89,7 +89,7 @@ Hitbox Collision(Hitbox HeroBox, Hitbox FloorBox,int speed, int CauseStop) {
 		
 }
 
-void MoveHero(SDL_Renderer *renderer, Hitbox *HeroBox, Hitbox FloorBox, int speed, SDL_Event event) {
+void MoveHero(SDL_Renderer *renderer, Hitbox HeroBox, Hitbox FloorBox, int speed, SDL_Event event) {
 	int CauseStop = 0;
 	if (event.type == SDL_KEYDOWN) {
 		int direction = 0;
@@ -161,7 +161,7 @@ void MoveHero(SDL_Renderer *renderer, Hitbox *HeroBox, Hitbox FloorBox, int spee
         SDL_PollEvent(&event);
 }
 
-void Jump(SDL_Renderer *renderer, Hitbox *HeroBox, Hitbox FloorBox, int jump_H, int speed, SDL_Event event) {
+void Jump(SDL_Renderer *renderer, Hitbox HeroBox, Hitbox FloorBox, int jump_H, int speed, SDL_Event event) {
 	if (event.type == SDL_KEYDOWN & event.key.keysym.sym == SDLK_SPACE) {
 	
 		if (jump_H != 0) {
@@ -180,6 +180,5 @@ void Jump(SDL_Renderer *renderer, Hitbox *HeroBox, Hitbox FloorBox, int jump_H, 
 			SDL_PollEvent(&event);
          	}
 	}
-	return HeroBox;
 
 }

@@ -19,7 +19,7 @@ typedef struct Rect {
 
 typedef struct MoveHeroArgs {
 	SDL_Renderer *renderer;
-	Hitbox *HeroBox;
+	Hitbox *p_HeroBox;
 	Hitbox FloorBox;
 	int speed;
 	SDL_Event event;
@@ -27,7 +27,7 @@ typedef struct MoveHeroArgs {
 
 typedef struct JumpArgs {
 	SDL_Renderer *renderer;
-	Hitbox *HeroBox;
+	Hitbox *p_HeroBox;
 	Hitbox FloorBox;
 	int jump_H;
 	int speed;

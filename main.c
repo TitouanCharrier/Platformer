@@ -27,64 +27,94 @@ int main() {
 
 	//création de la variable événement
 	SDL_Event event;
-	
+
+	//Variable d'éxecution	
 	bool run = 1;
 	
+	//mise au noir de l'écran
 	SDL_SetRenderDrawColor(renderer, 0,0,0,0);
 	SDL_RenderPresent(renderer);
-
+	
+	//définition du carré qui fait office de personnage
  	Hitbox HeroBox;
 	HeroBox.centrx = SCR_W/4;
 	HeroBox.centry = SCR_H/2;
 	HeroBox.sizex = 25;
 	HeroBox.sizey = 50;
 	
+	//définition de la Hitbox de l'obstacle (oui ca ne ressemble pas a un sol)
 	Hitbox FloorBox;
 	FloorBox.centrx = SCR_W/2;
 	FloorBox.centry = SCR_H/2;
 	FloorBox.sizex = 100;
 	FloorBox.sizey = 100;
 	
+	//pointeur vers HeroBox
 	int *p_HeroBox = &HeroBox;
 	
+	//struct servant a faire passer les arguments de la fontion MoveHero Dans le Thread 1
 	MoveHeroArgs MoveHero_args;
 	MoveHero_args.renderer = renderer;
 	MoveHero_args.p_HeroBox = p_HeroBox;
 	MoveHero_args.speed = SPEED;
 	MoveHero_args.FloorBox = FloorBox;
 	
+	//pointeur vers le struct précédant
 	int *p_MoveHero_args = &MoveHero_args;
-
+	
+	//struct servant a faire passer les arguments de la fonction Jump dans le Thread 2
 	JumpArgs Jump_args;
 	Jump_args.jump_H = 10;
 	Jump_args.renderer = renderer;
 	Jump_args.speed = SPEED;
 	Jump_args.FloorBox = FloorBox;
-
+	
+	//pointeur vers le dernier struct
 	int *p_Jump_args = &Jump_args;
 
-	RegulPoly(renderer, 5, 100, 1366/2, 768/2,1, 255, 0,0,0, 0);
-
-	PrintHero(renderer, HeroBox, 0,255,255,255);
-
+	//boucle principale	
 	while (run) {
 		while (SDL_PollEvent(&event)) {
+			
+			//ajout des derniers éléments aux structs d'arguments
 			MoveHero_args.event = event;
 			Jump_args.event = event;
+			
+			//définition du nombre de threads
 			pthread_t threads[2];
+
+			//creation des threads et lancement des fonction 
 			pthread_create(&threads[1], NULL, MoveHero , p_MoveHero_args);
 			pthread_create(&threads[2], NULL, Jump, p_Jump_args);
+			
+			//attender la fin des Threads
+			pthread_join(threads[1], NULL);
+			pthread_join(threads[2], NULL);
+
+			//fermer les threads
+			pthread_exit(NULL);
+
+			//détection de la touche échape pour fermer
 			if (event.key.keysym.sym == SDLK_ESCAPE) {
 				run = 0;
 			}
-		CreateRectangle(renderer, SCR_W/2, SCR_H/2, 100, 100, 0, 255, 0, 255, 1);
-		SDL_RenderPresent(renderer);
-		SDL_SetRenderDrawColor(renderer, 0,0,0,0);	
-		SDL_Delay(16);
+			
+			//créer le rectangle Obstacle dont on a modifier la position grâce aux fonctions dans les Threads
+			CreateRectangle(renderer, SCR_W/2, SCR_H/2, 100, 100, 0, 255, 0, 255, 1);
+			
+			//mettre a jour le renderer
+			SDL_RenderPresent(renderer);
+			
+			//redéfinir le fond en noir
+			SDL_SetRenderDrawColor(renderer, 0,0,0,0);	
+
+			//attendre (16 ms environ = à 60fps);
+			SDL_Delay(16);
 		}
+	//idem pour pas consommer trop de processeur
 	SDL_Delay(16);
 	}	
-	//on quitte proprement (je crois) SDL_DestroyRenderer(renderer);
+	//on ferme SDL
 	SDL_Quit();
 }
 

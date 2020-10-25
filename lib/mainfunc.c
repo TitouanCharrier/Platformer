@@ -1,5 +1,6 @@
 #include "mainfunc.h"
 
+//détecter les collisions entre deux Hitbox en X
 int CompareHitbox_X(Hitbox mobile, Hitbox statique, int speed) {
 	int mcx = mobile.centrx;
 	int mcy = mobile.centry;
@@ -20,6 +21,7 @@ int CompareHitbox_X(Hitbox mobile, Hitbox statique, int speed) {
 	}
 }
 
+//détecter les collisions entre deux Hitbox en Y
 int CompareHitbox_Y(Hitbox mobile, Hitbox statique, int speed) {
         int mcx = mobile.centrx;
         int mcy = mobile.centry;
@@ -42,6 +44,7 @@ int CompareHitbox_Y(Hitbox mobile, Hitbox statique, int speed) {
         }
 }
 
+//créer et afficher le rectangle (hitbox) du Personnage
 void PrintHero(SDL_Renderer *renderer,Hitbox HeroBox, int r, int g, int b, int a) {
 	SDL_RenderClear(renderer);	
 	CreateRectangle(renderer,HeroBox.centrx, HeroBox.centry, HeroBox.sizex, HeroBox.sizey, r,g,b,a, 0);
@@ -49,6 +52,7 @@ void PrintHero(SDL_Renderer *renderer,Hitbox HeroBox, int r, int g, int b, int a
 	SDL_SetRenderDrawColor(renderer, 0,0,0,0);
 }
 
+//déplacer le personnage dans les 4 directions soir 1 = Nord, 2 = Sud, 3 = Est, 4 = Ouest
 Hitbox Move(SDL_Renderer *renderer,Hitbox subject, int speed, int direction) {
 	switch (direction) {
 		case 1 :
@@ -68,6 +72,7 @@ Hitbox Move(SDL_Renderer *renderer,Hitbox subject, int speed, int direction) {
 	return (subject);
 }
 
+//replacer le héro en fonction des collisions
 Hitbox Collision(Hitbox HeroBox, Hitbox FloorBox,int speed, int CauseStop) {
 	if (CompareHitbox_Y(HeroBox, FloorBox, speed) == 1 & CauseStop == 1) {
         	HeroBox.centry = FloorBox.centry + FloorBox.sizey/2 + HeroBox.sizey/2 +10;
@@ -89,6 +94,7 @@ Hitbox Collision(Hitbox HeroBox, Hitbox FloorBox,int speed, int CauseStop) {
 		
 }
 
+//Fonction principale concernant le mouvement dans les 4 directions
 void MoveHero(SDL_Renderer *renderer, Hitbox HeroBox, Hitbox FloorBox, int speed, SDL_Event event) {
 	int CauseStop = 0;
 	if (event.type == SDL_KEYDOWN) {
@@ -152,7 +158,6 @@ void MoveHero(SDL_Renderer *renderer, Hitbox HeroBox, Hitbox FloorBox, int speed
 			else {
 				PrintHero(renderer, HeroBox, 0,255,255,255);
 			}
-			//Collision(HeroBox, FloorBox, speed, CauseStop);
 
 			SDL_PollEvent(&event);
 
@@ -161,6 +166,7 @@ void MoveHero(SDL_Renderer *renderer, Hitbox HeroBox, Hitbox FloorBox, int speed
         SDL_PollEvent(&event);
 }
 
+//Fonction principale concernant le saut
 void Jump(SDL_Renderer *renderer, Hitbox HeroBox, Hitbox FloorBox, int jump_H, int speed, SDL_Event event) {
 	if (event.type == SDL_KEYDOWN & event.key.keysym.sym == SDLK_SPACE) {
 	

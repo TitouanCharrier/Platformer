@@ -1,5 +1,5 @@
 #include "lib/mainfunc.h"
-
+#include <pthread.h>
 
 #define SCR_W 1920
 #define SCR_H 1080
@@ -51,7 +51,7 @@ int main() {
 	while (run) {
 		while (SDL_PollEvent(&event)) {
 			HeroBox = MoveHero(renderer, HeroBox, FloorBox, 10, event);
-			HeroBox = Jump(renderer, HeroBox, FloorBox, 2, event);
+			HeroBox = Jump(renderer, HeroBox, FloorBox, 2, 10, event);
 			if (event.key.keysym.sym == SDLK_ESCAPE) {
 				run = 0;
 			}

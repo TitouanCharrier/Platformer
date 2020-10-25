@@ -99,7 +99,7 @@ Hitbox MoveHero(SDL_Renderer *renderer, Hitbox HeroBox, Hitbox FloorBox, int spe
 				if (event.key.keysym.sym == SDLK_UP) {
 					if ((CompareHitbox_Y(HeroBox, FloorBox, speed) == 1) & (HeroBox.centry > FloorBox.centry)) {
 						CauseStop = 1;
-						HeroBox.centry = FloorBox.centry + FloorBox.sizey/2 + HeroBox.sizey/2 +20;
+						HeroBox.centry = FloorBox.centry + FloorBox.sizey/2 + HeroBox.sizey/2 +speed;
                                         	direction = 0;
                                 	}
 					else {
@@ -109,7 +109,7 @@ Hitbox MoveHero(SDL_Renderer *renderer, Hitbox HeroBox, Hitbox FloorBox, int spe
 				if (event.key.keysym.sym == SDLK_DOWN) {
 					if ((CompareHitbox_Y(HeroBox, FloorBox, speed) == 1) & (HeroBox.centry < FloorBox.centry)) {
 						CauseStop = 2;
-						HeroBox.centry = FloorBox.centry - FloorBox.sizey/2 - HeroBox.sizey/2 -20;
+						HeroBox.centry = FloorBox.centry - FloorBox.sizey/2 - HeroBox.sizey/2 -speed;
                                                 direction = 0;
                                         }
                                         else {  
@@ -120,7 +120,7 @@ Hitbox MoveHero(SDL_Renderer *renderer, Hitbox HeroBox, Hitbox FloorBox, int spe
 				if (event.key.keysym.sym == SDLK_RIGHT) {
 					if ((CompareHitbox_X(HeroBox, FloorBox, speed) == 1) & (HeroBox.centrx < FloorBox.centrx)) {
 						CauseStop = 3;
-						HeroBox.centrx = FloorBox.centrx - FloorBox.sizex/2 - HeroBox.sizex/2 -20;
+						HeroBox.centrx = FloorBox.centrx - FloorBox.sizex/2 - HeroBox.sizex/2 -speed;
                                                 direction = 0;
                                         }
                                         else {  
@@ -131,7 +131,7 @@ Hitbox MoveHero(SDL_Renderer *renderer, Hitbox HeroBox, Hitbox FloorBox, int spe
 				if (event.key.keysym.sym == SDLK_LEFT) {
 					if ((CompareHitbox_X(HeroBox, FloorBox, speed) == 1) & (HeroBox.centrx > FloorBox.centrx)) {
 						CauseStop = 4;
-						HeroBox.centrx = FloorBox.centrx + FloorBox.sizex/2 + HeroBox.sizex/2 +20;
+						HeroBox.centrx = FloorBox.centrx + FloorBox.sizex/2 + HeroBox.sizex/2 +speed;
                                                 direction = 0;
                                         }
 

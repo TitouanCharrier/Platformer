@@ -39,7 +39,7 @@ int main() {
 	
 	Hitbox FloorBox;
 	FloorBox.centrx = SCR_W/2;
-	FloorBox.centry = SCR_H-400;
+	FloorBox.centry = SCR_H-300;
 	FloorBox.sizex = 500;
 	FloorBox.sizey = 100;
 	FloorBox.r = 0;

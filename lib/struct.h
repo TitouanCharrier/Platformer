@@ -16,3 +16,20 @@ typedef struct Rect {
 	int sizex;
 	int sizey;
 } Rect;
+
+typedef struct MoveHeroArgs {
+	SDL_Renderer *renderer;
+	Hitbox *HeroBox;
+	Hitbox FloorBox;
+	int speed;
+	SDL_Event event;
+}MoveHeroArgs;
+
+typedef struct JumpArgs {
+	SDL_Renderer *renderer;
+	Hitbox *HeroBox;
+	Hitbox FloorBox;
+	int jump_H;
+	int speed;
+	SDL_Event event;
+}JumpArgs;

@@ -10,6 +10,6 @@ Hitbox Collision(Hitbox, Hitbox,int speed, int CauseStop);
 
 Hitbox Move(SDL_Renderer *renderer,Hitbox subject, int speed, int direction);
 
-Hitbox MoveHero(SDL_Renderer *renderer, Hitbox HeroBox, Hitbox FloorBox,int speed, SDL_Event event);
+void *MoveHero(SDL_Renderer *renderer, Hitbox *HeroBox, Hitbox FloorBox,int speed, SDL_Event event);
 
-Hitbox Jump(SDL_Renderer *renderer, Hitbox HeroBox, Hitbox FloorBox, int jump_H, int speed, SDL_Event event);
+void *Jump(SDL_Renderer *renderer, Hitbox *HeroBox, Hitbox FloorBox, int jump_H, int speed, SDL_Event event);

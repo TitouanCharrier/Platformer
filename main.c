@@ -42,7 +42,8 @@ int main() {
 	FloorBox.centry = SCR_H/2;
 	FloorBox.sizex = 100;
 	FloorBox.sizey = 100;
-
+	
+	int *p_HeroBox = &HeroBox;
 
 	RegulPoly(renderer, 5, 100, 1366/2, 768/2,1, 255, 0,0,0, 0);
 
@@ -50,8 +51,9 @@ int main() {
 
 	while (run) {
 		while (SDL_PollEvent(&event)) {
-			HeroBox = MoveHero(renderer, HeroBox, FloorBox, 10, event);
-			HeroBox = Jump(renderer, HeroBox, FloorBox, 2, 10, event);
+			pthread_t threads[2];
+			pthread_create(&threads[1], NULL, MoveHero , (void *)1);
+			pthread_create(&threads[2], NULL, (HeroBox = Jump(renderer, HeroBox, FloorBox, 2, 10, event)), (void *)2);
 			if (event.key.keysym.sym == SDLK_ESCAPE) {
 				run = 0;
 			}

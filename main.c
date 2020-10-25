@@ -51,7 +51,7 @@ int main() {
 	while (run) {
 		while (SDL_PollEvent(&event)) {
 			HeroBox = MoveHero(renderer, HeroBox, FloorBox, 10, event);
-			HeroBox = Jump(renderer, HeroBox, 3, event);
+			HeroBox = Jump(renderer, HeroBox, FloorBox, 2, event);
 			if (event.key.keysym.sym == SDLK_ESCAPE) {
 				run = 0;
 			}

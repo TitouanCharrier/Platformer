@@ -42,11 +42,16 @@ int main() {
 	FloorBox.centry = SCR_H/2;
 	FloorBox.sizex = 100;
 	FloorBox.sizey = 100;
+	FloorBox.r = 0;
+	FloorBox.g = 255;
+	FloorBox.b = 255;
+	FloorBox.a = 255;
+	FloorBox.fill = 1;
+	
 
 
-	RegulPoly(renderer, 5, 100, 1366/2, 768/2,1, 255, 0,0,0, 0);
 
-	PrintHero(renderer, HeroBox, 0,255,255,255);
+	PrintHero(renderer, HeroBox, FloorBox, 0,255,255,255);
 
 	while (run) {
 		while (SDL_PollEvent(&event)) {
@@ -55,7 +60,6 @@ int main() {
 			if (event.key.keysym.sym == SDLK_ESCAPE) {
 				run = 0;
 			}
-		CreateRectangle(renderer, SCR_W/2, SCR_H/2, 100, 100, 0, 255, 0, 255, 1);
 		SDL_RenderPresent(renderer);
 		SDL_SetRenderDrawColor(renderer, 0,0,0,0);	
 		SDL_Delay(16);

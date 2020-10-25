@@ -1,11 +1,16 @@
 typedef int bool;
 
 typedef struct Hitbox {
-	char type;
+	SDL_Renderer *renderer;
 	int centrx;
 	int centry;
 	int sizex;
         int sizey;
+	int r;
+	int g;
+	int b;
+	int a;
+	bool fill;
 }Hitbox;
 
 typedef struct Rect {

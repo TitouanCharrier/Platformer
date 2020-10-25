@@ -42,14 +42,15 @@ int CompareHitbox_Y(Hitbox mobile, Hitbox statique, int speed) {
         }
 }
 
-void PrintHero(SDL_Renderer *renderer,Hitbox HeroBox, int r, int g, int b, int a) {
-	SDL_RenderClear(renderer);	
+void PrintHero(SDL_Renderer *renderer,Hitbox HeroBox,Hitbox FloorBox, int r, int g, int b, int a) {
+	SDL_RenderClear(renderer);
+	CreateRectangle(renderer,FloorBox.centrx,FloorBox.centry,FloorBox.sizex,FloorBox.sizey,FloorBox.r,FloorBox.g,FloorBox.b,FloorBox.a,FloorBox.fill);  
 	CreateRectangle(renderer,HeroBox.centrx, HeroBox.centry, HeroBox.sizex, HeroBox.sizey, r,g,b,a, 0);
 	SDL_RenderPresent(renderer);
 	SDL_SetRenderDrawColor(renderer, 0,0,0,0);
 }
 
-Hitbox Move(SDL_Renderer *renderer,Hitbox subject, int speed, int direction) {
+Hitbox Move(SDL_Renderer *renderer,Hitbox subject, Hitbox FloorBox, int speed, int direction) {
 	switch (direction) {
 		case 1 :
         		subject.centry -= speed;
@@ -64,7 +65,7 @@ Hitbox Move(SDL_Renderer *renderer,Hitbox subject, int speed, int direction) {
                         subject.centrx -= speed;
                         break;
 	}
-        PrintHero(renderer, subject, 255,0,0,255);
+        PrintHero(renderer, subject, FloorBox,0,255,255,255);
 	return (subject);
 }
 
@@ -144,16 +145,15 @@ Hitbox MoveHero(SDL_Renderer *renderer, Hitbox HeroBox, Hitbox FloorBox, int spe
 			
 
 			if (direction != 0) {
-				HeroBox =  Move(renderer, HeroBox, speed, direction);
+				HeroBox =  Move(renderer, HeroBox, FloorBox, speed, direction);
                                 SDL_Delay(16);
 
 			}
 
 			else {
-				PrintHero(renderer, HeroBox, 0,255,255,255);
+				PrintHero(renderer, HeroBox, FloorBox, 0,255,255,255);
 			}
 			//Collision(HeroBox, FloorBox, speed, CauseStop);
-
 			SDL_PollEvent(&event);
 
 		} while (event.type != SDL_KEYUP);
@@ -168,14 +168,14 @@ Hitbox Jump(SDL_Renderer *renderer, Hitbox HeroBox, Hitbox FloorBox, int jump_H,
 	
 		if (jump_H != 0) {
 			for (float i=0; i<jump_H; i+=0.1) {
-                		HeroBox = Move(renderer, HeroBox, 10*cos(i), 1);
-                		PrintHero(renderer, HeroBox, 0,255, 255, 255);
+                		HeroBox = Move(renderer, HeroBox, FloorBox, 10*cos(i), 1);
+                		PrintHero(renderer, HeroBox, FloorBox, 0,255, 255, 255);
 				SDL_Delay(16);
 			}
 			while (CompareHitbox_Y(HeroBox,FloorBox, speed) != 1 & HeroBox.centry < 768) {
-				HeroBox = Move(renderer, HeroBox, 10, 2);
+				HeroBox = Move(renderer, HeroBox, FloorBox, 10, 2);
 				Collision(HeroBox, FloorBox, speed, 1);
-                                PrintHero(renderer, HeroBox, 0,255, 255, 255);
+                                PrintHero(renderer, HeroBox, FloorBox, 0,255, 255, 255);
                                 SDL_Delay(16);
 
 			}

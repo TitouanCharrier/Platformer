@@ -44,7 +44,7 @@ int CompareHitbox_Y(Hitbox mobile, Hitbox statique, int speed) {
 
 void PrintHero(SDL_Renderer *renderer,Hitbox HeroBox,Hitbox FloorBox, int r, int g, int b, int a) {
 	SDL_RenderClear(renderer);
-	CreateRectangle(renderer,FloorBox.centrx,FloorBox.centry,FloorBox.sizex,FloorBox.sizey,FloorBox.r,FloorBox.g,FloorBox.b,FloorBox.a,FloorBox.fill);  
+	CreateRectangle(renderer,FloorBox.centrx,FloorBox.centry,FloorBox.sizex+17,FloorBox.sizey+17,FloorBox.r,FloorBox.g,FloorBox.b,FloorBox.a,FloorBox.fill);  
 	CreateRectangle(renderer,HeroBox.centrx, HeroBox.centry, HeroBox.sizex, HeroBox.sizey, r,g,b,a, 0);
 	SDL_RenderPresent(renderer);
 	SDL_SetRenderDrawColor(renderer, 0,0,0,0);

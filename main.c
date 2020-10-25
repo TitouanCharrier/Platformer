@@ -6,6 +6,7 @@
 #define pi 3.14159265358979323846264338379
 #define False 0
 #define True 1
+#define JUMP_H 10
 
 int main() {
 
@@ -55,8 +56,7 @@ int main() {
 
 	while (run) {
 		while (SDL_PollEvent(&event)) {
-			HeroBox = MoveHero(renderer, HeroBox, FloorBox, 10, event);
-			HeroBox = Jump(renderer, HeroBox, FloorBox, 2, 10, event);
+			HeroBox = MoveHero(renderer, HeroBox, FloorBox, JUMP_H, 10, event);
 			if (event.key.keysym.sym == SDLK_ESCAPE) {
 				run = 0;
 			}

@@ -114,43 +114,62 @@ Hitbox MoveHero(SDL_Renderer *renderer, Hitbox HeroBox, Hitbox FloorBox,int spee
 						HeroBox.centrx = FloorBox.centrx + FloorBox.sizex/2 + HeroBox.sizex/2 +10;
                                                 direction = 0;
                                         }
+
                                         else {  
                                                 direction = 4;
                                         }
 
 				}
 			}
-
+			
 
 			if (direction != 0) {
 				HeroBox =  Move(renderer, HeroBox, speed, direction);
-                        	SDL_Delay(16);
+                                SDL_Delay(16);
+
 				if (CompareHitbox_Y(HeroBox, FloorBox, speed) == 1 & CauseStop == 1) {
 					 HeroBox.centry = FloorBox.centry + FloorBox.sizey/2 + HeroBox.sizey/2 +10;
-
+					return HeroBox;
 				}
 				if (CompareHitbox_Y(HeroBox, FloorBox, speed) == 1 & CauseStop == 2) {
 					HeroBox.centry = FloorBox.centry - FloorBox.sizey/2 - HeroBox.sizey/2 -10;
-
+					return HeroBox;
                                 }
 				if (CompareHitbox_X(HeroBox, FloorBox, speed) == 1 & CauseStop == 3) {
                                         HeroBox.centrx = FloorBox.centrx - FloorBox.sizex/2 - HeroBox.sizex/2 -10;
-
+					return HeroBox;
                                 }
 				if (CompareHitbox_X(HeroBox, FloorBox, speed) == 1 & CauseStop == 4) {
                                         HeroBox.centrx = FloorBox.centrx + FloorBox.sizex/2 + HeroBox.sizex/2 +10;
-
+					return HeroBox;
                                 }
+
 			}
 
 			else {
 				PrintHero(renderer, HeroBox, 0,255,255,255);
 			}
+
 			SDL_PollEvent(&event);
 
 		} while (event.type != SDL_KEYUP);
 	}
         SDL_PollEvent(&event);
+	return HeroBox;
+
+}
+
+Hitbox Jump(SDL_Renderer *renderer, Hitbox HeroBox, int jump_H, SDL_Event event) {
+	if (event.type == SDL_KEYDOWN & event.key.keysym.sym == SDLK_SPACE) {
+	
+		if (jump_H != 0) {
+			for (float i=0; i<=jump_H; i+=0.1) {
+                		HeroBox = Move(renderer, HeroBox, 10*cos(i), 1);
+                		PrintHero(renderer, HeroBox, 0,255, 255, 255);
+				SDL_Delay(16);
+			}
+         	}
+	}
 	return HeroBox;
 
 }

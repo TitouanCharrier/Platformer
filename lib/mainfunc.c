@@ -90,13 +90,27 @@ Hitbox Collision(Hitbox HeroBox, Hitbox FloorBox,int speed, int CauseStop) {
 		
 }
 
-Hitbox MoveHero(SDL_Renderer *renderer, Hitbox HeroBox, Hitbox FloorBox, int speed, SDL_Event event) {
+MoveHeroReturn MoveHero(SDL_Renderer *renderer, Hitbox HeroBox, Hitbox FloorBox,int Jump_H, int speed, SDL_Event event) {
 	int CauseStop = 0;
+	float Jump = Jump_H;
 	if (event.type == SDL_KEYDOWN) {
 		int direction = 0;
 		do {
 			if (event.type == SDL_KEYDOWN) {
 
+				if (event.key.keysym.sym == SDLK_SPACE & Jump >= Jump_H) {
+					Jump = 0;
+				}
+
+					if (Jump<Jump_H & CompareHitbox_Y(HeroBox,FloorBox,speed) == 1) {
+						Jump += 0.1;
+						HeroBox = Move(renderer, HeroBox, FloorBox, 15, 1);
+				}
+				//Gravity 2	
+				else if (CompareHitbox_Y(HeroBox, FloorBox, speed) != 1 & HeroBox.centry < 800) {
+					HeroBox = Move(renderer, HeroBox, FloorBox, speed/2, 2);
+				}
+				
 				if (event.key.keysym.sym == SDLK_UP) {
 					if ((CompareHitbox_Y(HeroBox, FloorBox, speed) == 1) & (HeroBox.centry > FloorBox.centry)) {
 						CauseStop = 1;
@@ -142,6 +156,11 @@ Hitbox MoveHero(SDL_Renderer *renderer, Hitbox HeroBox, Hitbox FloorBox, int spe
 
 				}
 			}
+			//Jump
+			if (Jump<Jump_H /*& CompareHitbox_Y(HeroBox, FloorBox, speed) == 1*/) {
+                                Jump += 0.1;
+                                HeroBox = Move(renderer, HeroBox, FloorBox, speed+5, 1);
+                        }
 			
 
 			if (direction != 0) {
@@ -159,10 +178,13 @@ Hitbox MoveHero(SDL_Renderer *renderer, Hitbox HeroBox, Hitbox FloorBox, int spe
 		} while (event.type != SDL_KEYUP);
 	}
         SDL_PollEvent(&event);
-	return HeroBox;
+	MoveHeroReturn MHR;
+	MHR.HeroBox = HeroBox;
+	MHR.Jump = Jump;
+	return MHR;
 
 }
-
+/*
 Hitbox Jump(SDL_Renderer *renderer, Hitbox HeroBox, Hitbox FloorBox, int jump_H, int speed, SDL_Event event) {
 	if (event.type == SDL_KEYDOWN & event.key.keysym.sym == SDLK_SPACE) {
 	
@@ -184,4 +206,4 @@ Hitbox Jump(SDL_Renderer *renderer, Hitbox HeroBox, Hitbox FloorBox, int jump_H,
 	}
 	return HeroBox;
 
-}
+}*/

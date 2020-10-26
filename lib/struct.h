@@ -21,3 +21,8 @@ typedef struct Rect {
 	int sizex;
 	int sizey;
 } Rect;
+
+typedef struct MoveHeroReturn {
+	Hitbox HeroBox;
+	float Jump;
+} MoveHeroReturn;

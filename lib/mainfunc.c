@@ -95,6 +95,9 @@ Hitbox Collision(Hitbox HeroBox, Hitbox FloorBox,int speed, int CauseStop) {
 }
 
 //Fonction principale concernant le mouvement dans les 4 directions
+void ThreadMoveHero(MoveHeroArgs *p_MoveHero_args) {
+	MoveHero(p_MoveHero_args->renderer, p_MoveHero_args->HeroBox, p_MoveHero_args->FloorBox, p_MoveHero_args->speed, p_MoveHero_args->event);
+}
 void MoveHero(SDL_Renderer *renderer, Hitbox HeroBox, Hitbox FloorBox, int speed, SDL_Event event) {
 	int CauseStop = 0;
 	if (event.type == SDL_KEYDOWN) {
@@ -167,6 +170,9 @@ void MoveHero(SDL_Renderer *renderer, Hitbox HeroBox, Hitbox FloorBox, int speed
 }
 
 //Fonction principale concernant le saut
+void ThreadJump(JumpArgs *p_Jump_args) {
+	Jump(p_Jump_args->renderer, p_Jump_args->HeroBox, p_Jump_args->FloorBox, p_Jump_args->jump_H, p_Jump_args->speed, p_Jump_args->event);
+}
 void Jump(SDL_Renderer *renderer, Hitbox HeroBox, Hitbox FloorBox, int jump_H, int speed, SDL_Event event) {
 	if (event.type == SDL_KEYDOWN & event.key.keysym.sym == SDLK_SPACE) {
 	
@@ -181,6 +187,7 @@ void Jump(SDL_Renderer *renderer, Hitbox HeroBox, Hitbox FloorBox, int jump_H, i
 				Collision(HeroBox, FloorBox, speed, 1);
                                 PrintHero(renderer, HeroBox, 0,255, 255, 255);
                                 SDL_Delay(16);
+				SDL_PollEvent(&event);
 
 			}
 			SDL_PollEvent(&event);

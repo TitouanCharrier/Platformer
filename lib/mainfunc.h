@@ -12,4 +12,8 @@ Hitbox Move(SDL_Renderer *renderer,Hitbox subject, int speed, int direction);
 
 void MoveHero(SDL_Renderer *renderer, Hitbox HeroBox, Hitbox FloorBox,int speed, SDL_Event event);
 
+void ThreadMoveHero(MoveHeroArgs *p_MoveHero_args);
+
 void Jump(SDL_Renderer *renderer, Hitbox HeroBox, Hitbox FloorBox, int jump_H, int speed, SDL_Event event);
+
+void ThreadJump(JumpArgs *p_Jump_args);

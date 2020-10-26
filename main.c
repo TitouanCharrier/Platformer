@@ -49,29 +49,27 @@ int main() {
 	FloorBox.sizex = 100;
 	FloorBox.sizey = 100;
 	
-	//pointeur vers HeroBox
-	int *p_HeroBox = &HeroBox;
-	
 	//struct servant a faire passer les arguments de la fontion MoveHero Dans le Thread 1
 	MoveHeroArgs MoveHero_args;
 	MoveHero_args.renderer = renderer;
-	MoveHero_args.p_HeroBox = p_HeroBox;
+	MoveHero_args.HeroBox = HeroBox;
 	MoveHero_args.speed = SPEED;
 	MoveHero_args.FloorBox = FloorBox;
 	
 	//pointeur vers le struct précédant
-	int *p_MoveHero_args = &MoveHero_args;
+	MoveHeroArgs *p_MoveHero_args = &MoveHero_args;
 	
 	//struct servant a faire passer les arguments de la fonction Jump dans le Thread 2
 	JumpArgs Jump_args;
 	Jump_args.jump_H = 10;
+	Jump_args.HeroBox = HeroBox;
 	Jump_args.renderer = renderer;
 	Jump_args.speed = SPEED;
 	Jump_args.FloorBox = FloorBox;
 	
 	//pointeur vers le dernier struct
-	int *p_Jump_args = &Jump_args;
-
+	JumpArgs *p_Jump_args = &Jump_args;
+	
 	//boucle principale	
 	while (run) {
 		while (SDL_PollEvent(&event)) {
@@ -82,17 +80,13 @@ int main() {
 			
 			//définition du nombre de threads
 			pthread_t threads[2];
-
 			//creation des threads et lancement des fonction 
-			pthread_create(&threads[1], NULL, MoveHero , p_MoveHero_args);
-			pthread_create(&threads[2], NULL, Jump, p_Jump_args);
+			pthread_create(&threads[0], NULL, ThreadMoveHero , p_MoveHero_args);
+			pthread_create(&threads[1], NULL, ThreadJump, p_Jump_args);
 			
 			//attender la fin des Threads
+			pthread_join(threads[0], NULL);
 			pthread_join(threads[1], NULL);
-			pthread_join(threads[2], NULL);
-
-			//fermer les threads
-			pthread_exit(NULL);
 
 			//détection de la touche échape pour fermer
 			if (event.key.keysym.sym == SDLK_ESCAPE) {
@@ -116,6 +110,8 @@ int main() {
 	}	
 	//on ferme SDL
 	SDL_Quit();
+	pthread_exit(NULL);
+	
 }
 
 

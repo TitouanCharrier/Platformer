@@ -6,7 +6,7 @@ int CompareHitbox_Y(Hitbox mobile, Hitbox statique, int speed);
 
 void PrintHero(SDL_Renderer *renderer, Hitbox, Hitbox, int, int, int, int);
 
-Hitbox Collision(Hitbox, Hitbox,int speed, int CauseStop);
+Hitbox Collision(Hitbox, Hitbox,int speed);
 
 Hitbox Move(SDL_Renderer *renderer,Hitbox subject, Hitbox, int speed, int direction);
 

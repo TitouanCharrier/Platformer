@@ -6,7 +6,7 @@
 #define pi 3.14159265358979323846264338379
 #define False 0
 #define True 1
-#define JUMP_H 1.5
+#define JUMP_H 30
 
 int main() {
 
@@ -58,7 +58,7 @@ int main() {
 
 	while (run) {
 		while (SDL_PollEvent(&event)) {
-			MHR2 = (MoveHero(renderer, MHR.HeroBox, FloorBox, MHR.Jump, 10, event));
+			MHR2 = (MoveHero(renderer, MHR.HeroBox, FloorBox, JUMP_H, 10, event));
 			MHR.HeroBox = MHR2.HeroBox;
 			MHR.Jump = JUMP_H;
 			if (event.key.keysym.sym == SDLK_ESCAPE) run = 0;
@@ -66,17 +66,6 @@ int main() {
 			SDL_SetRenderDrawColor(renderer, 0,0,0,0);	
 		}
 
-
-                if (MHR.Jump<JUMP_H & CompareHitbox_Y(HeroBox,FloorBox,10) == 1) {
-                	MHR.Jump += 0.1;
-                        HeroBox = Move(renderer, HeroBox, FloorBox, 15, 1);
-                }
-
-
-		//Gravity
-		if (CompareHitbox_Y(MHR.HeroBox, FloorBox, 10) != 1 & MHR.HeroBox.centry<(800)) {
-                        MHR.HeroBox = Move(renderer, MHR.HeroBox, FloorBox, 5, 2);
-                }                                                          
                 SDL_Delay(16);      
 	}	
 	//on quitte proprement (je crois) 

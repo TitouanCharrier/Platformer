@@ -56,11 +56,27 @@ int CompareHitbox_Y(Hitbox mobile, Hitbox statique, int speed) {
 }
 
 void PrintHero(SDL_Renderer *renderer,Hitbox HeroBox,Hitbox FloorBox, int r, int g, int b, int a) {
+	//nettoyage
 	SDL_RenderClear(renderer);
+	//floor 
 	CreateRectangle(renderer,FloorBox.centrx,FloorBox.centry,FloorBox.sizex+17,FloorBox.sizey+17,FloorBox.r,FloorBox.g,FloorBox.b,FloorBox.a,FloorBox.fill);  
-	CreateRectangle(renderer,HeroBox.centrx, HeroBox.centry, HeroBox.sizex, HeroBox.sizey, r,g,b,a, 0);
+	//image
+	SDL_Surface *image = SDL_LoadBMP("rsc/external-content.bmp");
+        SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, image);
+	SDL_Rect RectangleImage= {HeroBox.centrx-HeroBox.sizex/2, HeroBox.centry-HeroBox.sizey/2,HeroBox.sizex,HeroBox.sizey};
+	SDL_RenderCopy(renderer, texture, NULL, &RectangleImage);
+	//CreateRectangle(renderer,HeroBox.centrx, HeroBox.centry, HeroBox.sizex, HeroBox.sizey, r,g,b,a, 0);
+	
+	//affichage
 	SDL_RenderPresent(renderer);
+	//mise au noir
 	SDL_SetRenderDrawColor(renderer, 0,0,0,0);
+
+	SDL_Delay(16);
+        SDL_DestroyTexture(texture);
+        SDL_FreeSurface(image);
+
+	
 }
 
 Hitbox Move(SDL_Renderer *renderer,Hitbox subject, Hitbox FloorBox, int speed, int direction) {
@@ -113,7 +129,7 @@ MoveHeroReturn MoveHero(SDL_Renderer *renderer, Hitbox HeroBox, Hitbox FloorBox,
 
 				if (event.key.keysym.sym == SDLK_ESCAPE) break;
 
-				if (event.key.keysym.sym == SDLK_SPACE & Jump == 0 & ((CompareHitbox_Y(HeroBox, FloorBox, speed) == 1) | (HeroBox.centry >= 790))) {
+				if (event.key.keysym.sym == SDLK_SPACE & Jump == 0 & ((CompareHitbox_Y(HeroBox, FloorBox, speed) == 1) | (HeroBox.centry >= 768-50-10))) {
 					if ((CompareHitbox_X(HeroBox, FloorBox, speed) == 1) & (HeroBox.centrx < FloorBox.centrx)) {
                                                 HeroBox.centrx = FloorBox.centrx - FloorBox.sizex/2 - HeroBox.sizex/2 -speed;
 					}
@@ -123,7 +139,6 @@ MoveHeroReturn MoveHero(SDL_Renderer *renderer, Hitbox HeroBox, Hitbox FloorBox,
 				if (event.key.keysym.sym == SDLK_RIGHT) {
 					if ((CompareHitbox_X(HeroBox, FloorBox, speed) == 4) & (HeroBox.centrx < FloorBox.centrx)) {
 						HeroBox.centrx = FloorBox.centrx - FloorBox.sizex/2 - HeroBox.sizex/2 -speed;
-                                                //MvRight = 0;
                                         }
                                         else {  
                                                 MvRight = 1;
@@ -134,7 +149,6 @@ MoveHeroReturn MoveHero(SDL_Renderer *renderer, Hitbox HeroBox, Hitbox FloorBox,
 				if (event.key.keysym.sym == SDLK_LEFT) {
 					if ((CompareHitbox_X(HeroBox, FloorBox, speed) == 3) & (HeroBox.centrx > FloorBox.centrx)) {
 						HeroBox.centrx = FloorBox.centrx + FloorBox.sizex/2 + HeroBox.sizex/2 +speed;
-                                                //MvLeft = 0;
                                         }
 
                                         else {  
@@ -172,7 +186,7 @@ MoveHeroReturn MoveHero(SDL_Renderer *renderer, Hitbox HeroBox, Hitbox FloorBox,
 				}
                         }
 
-			if (CompareHitbox_Y(HeroBox, FloorBox, speed) != 1 & HeroBox.centry < 800 & Jump == 0) {
+			if (CompareHitbox_Y(HeroBox, FloorBox, speed) != 1 & HeroBox.centry < 768-50 & Jump == 0) {
                        	        if (grav < Jump_H/4) {
                                         HeroBox = Move(renderer, HeroBox, FloorBox, speed/4, 2);
                                         grav += 1;
@@ -195,19 +209,14 @@ MoveHeroReturn MoveHero(SDL_Renderer *renderer, Hitbox HeroBox, Hitbox FloorBox,
 			if (MvRight == 1 & CompareHitbox_X(HeroBox, FloorBox, speed) != 4) {
 				HeroBox =  Move(renderer, HeroBox, FloorBox, speed, 3);
 			}
-			printf("Hitbox : %d, MvLeft : %d\n",CompareHitbox_X(HeroBox,FloorBox,speed), MvLeft);
 			if (MvLeft == 1 & CompareHitbox_X(HeroBox, FloorBox, speed) != 3) {
-				printf("debug");
 				HeroBox = Move(renderer, HeroBox, FloorBox, speed, 4);
-				printf("debug");
 			}
 			
-			SDL_Delay(16);
 			PrintHero(renderer, HeroBox, FloorBox, 0,255,255,255);
-			//Collision(HeroBox, FloorBox, speed, CauseStop);
 			SDL_PollEvent(&event);
 
-		} while (MvLeft == 1 | MvRight == 1 | Jump > 0 | (CompareHitbox_Y(HeroBox, FloorBox, 10) != 1 & HeroBox.centry<(800)));
+		} while (MvLeft == 1 | MvRight == 1 | Jump > 0 | (CompareHitbox_Y(HeroBox, FloorBox, 10) != 1 & HeroBox.centry<(768-50)));
 	}
         SDL_PollEvent(&event);
 	MoveHeroReturn MHR;
@@ -216,26 +225,3 @@ MoveHeroReturn MoveHero(SDL_Renderer *renderer, Hitbox HeroBox, Hitbox FloorBox,
 	return MHR;
 
 }
-/*
-Hitbox Jump(SDL_Renderer *renderer, Hitbox HeroBox, Hitbox FloorBox, int jump_H, int speed, SDL_Event event) {
-	if (event.type == SDL_KEYDOWN & event.key.keysym.sym == SDLK_SPACE) {
-	
-		if (jump_H != 0) {
-			for (float i=0; i<jump_H; i+=0.1) {
-                		HeroBox = Move(renderer, HeroBox, FloorBox, 10*cos(i), 1);
-                		PrintHero(renderer, HeroBox, FloorBox, 0,255, 255, 255);
-				SDL_Delay(16);
-			}
-			while (CompareHitbox_Y(HeroBox,FloorBox, speed) != 1 & HeroBox.centry < 768) {
-				HeroBox = Move(renderer, HeroBox, FloorBox, 10, 2);
-				Collision(HeroBox, FloorBox, speed, 1);
-                                PrintHero(renderer, HeroBox, FloorBox, 0,255, 255, 255);
-                                SDL_Delay(16);
-
-			}
-			SDL_PollEvent(&event);
-         	}
-	}
-	return HeroBox;
-
-}*/

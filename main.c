@@ -1,8 +1,8 @@
 #include "lib/mainfunc.h"
 #include <pthread.h>
 
-#define SCR_W 1920
-#define SCR_H 1080
+#define SCR_W 1366
+#define SCR_H 768
 #define pi 3.14159265358979323846264338379
 #define False 0
 #define True 1
@@ -33,14 +33,14 @@ int main() {
 	SDL_RenderPresent(renderer);
 
  	Hitbox HeroBox;
-	HeroBox.centrx = SCR_W/4;
+	HeroBox.centrx = SCR_W/2;
 	HeroBox.centry = SCR_H/2;
-	HeroBox.sizex = 25;
-	HeroBox.sizey = 50;
+	HeroBox.sizex = 447/5;
+	HeroBox.sizey = 827/5;
 	
 	Hitbox FloorBox;
 	FloorBox.centrx = SCR_W/2;
-	FloorBox.centry = SCR_H-300;
+	FloorBox.centry = SCR_H-50;
 	FloorBox.sizex = 500;
 	FloorBox.sizey = 100;
 	FloorBox.r = 0;
@@ -65,7 +65,6 @@ int main() {
 			SDL_RenderPresent(renderer);
 			SDL_SetRenderDrawColor(renderer, 0,0,0,0);	
 		}
-
                 SDL_Delay(16);      
 	}	
 	//on quitte proprement (je crois) 

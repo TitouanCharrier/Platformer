@@ -1,12 +1,7 @@
 #include <SDL2/SDL.h>
 #include <math.h>
 #include <stdio.h>
-
 #include "struct.h"
-
-#define pi 3.14159265358979323846264338379
-#define False 0
-#define True 1
 
 int RegulHollowPoly(SDL_Renderer *renderer,int nbrCote,int tailleCote,int centrx,int centry, int facing, int r,int g,int b,int a);
 

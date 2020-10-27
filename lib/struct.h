@@ -26,3 +26,8 @@ typedef struct MoveHeroReturn {
 	Hitbox HeroBox;
 	float Jump;
 } MoveHeroReturn;
+
+typedef struct CompareReturn {
+	int direction;
+	int object;
+}CompareReturn;

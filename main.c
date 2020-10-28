@@ -1,6 +1,6 @@
 #include "lib/mainfunc.h"
 
-int main() {
+int main(int argc, char *argv[]) {
 	//initiatilsation SDL2
 	SDL_Init(SDL_INIT_VIDEO);
 	SDL_Renderer *renderer = NULL;
@@ -22,16 +22,16 @@ int main() {
 	
 	//Hero
 	Hitbox HeroBox;
-        HeroBox.centrx = SCREEN_WIDTH/2;
+        HeroBox.centrx = SCREEN_WIDTH/4;
         HeroBox.centry = SCREEN_HEIGHT/2;
         HeroBox.sizex = 447/10;
         HeroBox.sizey = 827/10;
 
 	//Obstacles
-	Hitbox ListObstacle[7];
-	for (int i=0; i<5; i++) {
-	        ListObstacle[i].centrx = SCREEN_WIDTH/4*i;
-        	ListObstacle[i].centry = SCREEN_HEIGHT-25;
+	Hitbox ListObstacle[NBR_OBS];
+	for (int i=0; i<NBR_OBS; i++) {
+	        ListObstacle[i].centrx = 200 + 75*i;
+        	ListObstacle[i].centry = 768 - 50*i;
         	ListObstacle[i].sizex = 75;
        		ListObstacle[i].sizey = 75;
         	ListObstacle[i].r = 0;
@@ -47,10 +47,11 @@ int main() {
 	MHR.Jump = JUMP_HEIGHT;
 	MoveHeroReturn MHR2;
 	PrintHero(renderer, HeroBox, ListObstacle, 0,255,255,255);
-
+	
+	float CountMoutons = 0;
 	while (run) {
 		while (SDL_PollEvent(&event)) {
-			MHR2 = (MoveHero(renderer, MHR.HeroBox, ListObstacle, JUMP_HEIGHT, 10, event));
+			MHR2 = (MoveHero(renderer, MHR.HeroBox, ListObstacle, JUMP_HEIGHT, event));
 			MHR.HeroBox = MHR2.HeroBox;
 			MHR.Jump = JUMP_HEIGHT;
 			if (event.key.keysym.sym == SDLK_ESCAPE) run = 0;

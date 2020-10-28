@@ -1,6 +1,6 @@
 #include "mainfunc.h"
 
-CompareReturn CompareHitbox_X(Hitbox mobile, Hitbox statique[], int speed) {
+CompareReturn CompareHitbox_X(Hitbox mobile, Hitbox statique[]) {
 	CompareReturn final;
 	for (int i=0; i<NBR_OBS; i++) {
 		int mcx = mobile.centrx;
@@ -12,7 +12,7 @@ CompareReturn CompareHitbox_X(Hitbox mobile, Hitbox statique[], int speed) {
 		int ssx = statique[i].sizex;
 		int ssy = statique[i].sizey;
 	
-		if ((mcx+msx/2+speed >= scx-ssx/2) & (mcx-msx/2-speed <= scx)) {
+		if ((mcx+msx/2+HERO_SPEED >= scx-ssx/2) & (mcx-msx/2-HERO_SPEED <= scx)) {
 			if ((mcy+msy/2 <= scy+ssy/2 & mcy+msy/2 >= scy-ssy/2) | (mcy-msy/2 >= scy-ssy/2 & mcy-msy/2 <= scy+ssy/2)) {
 				final.direction = 4;
 				final.object = i;	
@@ -20,7 +20,7 @@ CompareReturn CompareHitbox_X(Hitbox mobile, Hitbox statique[], int speed) {
 			}
 		}
 	
-		else if ((mcx+msx/2+speed >= scx) & (mcx-msx/2-speed <= scx+ssx/2)) {
+		else if ((mcx+msx/2+HERO_SPEED >= scx) & (mcx-msx/2-HERO_SPEED <= scx+ssx/2)) {
 	                if ((mcy+msy/2 <= scy+ssy/2 & mcy+msy/2 >= scy-ssy/2) | (mcy-msy/2 >= scy-ssy/2 & mcy-msy/2 <= scy+ssy/2)) {
 				final.direction = 3;
 				final.object = i;
@@ -33,7 +33,7 @@ CompareReturn CompareHitbox_X(Hitbox mobile, Hitbox statique[], int speed) {
 	return final;
 }
 
-CompareReturn CompareHitbox_Y(Hitbox mobile, Hitbox statique[], int speed) {
+CompareReturn CompareHitbox_Y(Hitbox mobile, Hitbox statique[]) {
         CompareReturn final;
 	for (int i=0; i<NBR_OBS; i++) {
 		int mcx = mobile.centrx;
@@ -45,7 +45,7 @@ CompareReturn CompareHitbox_Y(Hitbox mobile, Hitbox statique[], int speed) {
 	        int ssx = statique[i].sizex;
 	        int ssy = statique[i].sizey;
 	
-	        if ((mcy+msy/2+speed >= scy-ssy/2) & (mcy-msy/2-speed <= scy)) {
+	        if ((mcy+msy/2+HERO_SPEED >= scy-ssy/2) & (mcy-msy/2-HERO_SPEED <= scy)) {
 	                if ((mcx+msx/2 <= scx+ssx/2 & mcx+msx/2 >= scx-ssx/2) | (mcx-msx/2 >= scx-ssx/2 & mcx-msx/2 <= scx+ssx/2)) { 
 	                        final.direction = 1;
 				final.object = i;
@@ -53,7 +53,7 @@ CompareReturn CompareHitbox_Y(Hitbox mobile, Hitbox statique[], int speed) {
 	                }
 	        }
 	
-		else if ((mcy+msy/2+speed >= scy) & (mcy-msy/2-speed <= scy+ssy/2)) {
+		else if ((mcy+msy/2+HERO_SPEED >= scy) & (mcy-msy/2-HERO_SPEED <= scy+ssy/2)) {
 	                if ((mcx+msx/2 <= scx+ssx/2 & mcx+msx/2 >= scx-ssx/2) | (mcx-msx/2 >= scx-ssx/2 & mcx-msx/2 <= scx+ssx/2)) {
 	                        final.direction = 2;
 				final.object = i;
@@ -107,7 +107,7 @@ void PrintHero(SDL_Renderer *renderer,Hitbox HeroBox,Hitbox ListObstacle[], int 
 	
 }
 
-Hitbox Move(SDL_Renderer *renderer,Hitbox subject, int speed, int direction) {
+Hitbox Move(SDL_Renderer *renderer,Hitbox subject,int speed, int direction) {
 	switch (direction) {
 		case 1 :
         		subject.centry -= speed;
@@ -125,31 +125,31 @@ Hitbox Move(SDL_Renderer *renderer,Hitbox subject, int speed, int direction) {
 	return (subject);
 }
 
-Hitbox Collision(Hitbox HeroBox, Hitbox ListObstacle[],int speed) {
-	int object = CompareHitbox_Y(HeroBox, ListObstacle, speed).object;	
-	if (CompareHitbox_Y(HeroBox, ListObstacle, speed).direction == 1) {
-		object = CompareHitbox_Y(HeroBox, ListObstacle, speed).object;	
+Hitbox Collision(Hitbox HeroBox, Hitbox ListObstacle[]) {
+	int object = CompareHitbox_Y(HeroBox, ListObstacle).object;	
+	if (CompareHitbox_Y(HeroBox, ListObstacle).direction == 1) {
+		object = CompareHitbox_Y(HeroBox, ListObstacle).object;	
         	HeroBox.centry = ListObstacle[object].centry + ListObstacle[object].sizey/2 + HeroBox.sizey/2 +10;
                	return HeroBox;
 	}
-	if (CompareHitbox_Y(HeroBox, ListObstacle, speed).direction == 2) {
-		object = CompareHitbox_Y(HeroBox, ListObstacle, speed).object;	
+	if (CompareHitbox_Y(HeroBox, ListObstacle).direction == 2) {
+		object = CompareHitbox_Y(HeroBox, ListObstacle).object;	
 	        HeroBox.centry = ListObstacle[object].centry - ListObstacle[object].sizey/2 - HeroBox.sizey/2 -10;
 	        return HeroBox;
 	}
-	if (CompareHitbox_X(HeroBox, ListObstacle, speed).direction == 3) {
-		object = CompareHitbox_Y(HeroBox, ListObstacle, speed).object;	
+	if (CompareHitbox_X(HeroBox, ListObstacle).direction == 3) {
+		object = CompareHitbox_Y(HeroBox, ListObstacle).object;	
 	        HeroBox.centrx = ListObstacle[object].centrx - ListObstacle[object].sizex/2 - HeroBox.sizex/2 -10;
 	        return HeroBox;
 	}
-	if (CompareHitbox_X(HeroBox, ListObstacle, speed).direction == 4) {
-		object = CompareHitbox_Y(HeroBox, ListObstacle, speed).object;	
+	if (CompareHitbox_X(HeroBox, ListObstacle).direction == 4) {
+		object = CompareHitbox_Y(HeroBox, ListObstacle).object;	
 	        HeroBox.centrx = ListObstacle[object].centrx + ListObstacle[object].sizex/2 + HeroBox.sizex/2 +10;
 	        return HeroBox;
 	}
 }
 
-MoveHeroReturn MoveHero(SDL_Renderer *renderer, Hitbox HeroBox, Hitbox ListObstacle[],int Jump_H, int speed, SDL_Event event) {
+MoveHeroReturn MoveHero(SDL_Renderer *renderer, Hitbox HeroBox, Hitbox ListObstacle[],int Jump_H, SDL_Event event) {
 	float Jump = 0;
 	int grav= 0;
 	bool MvRight = 0;
@@ -163,20 +163,20 @@ MoveHeroReturn MoveHero(SDL_Renderer *renderer, Hitbox HeroBox, Hitbox ListObsta
 				if (event.key.keysym.sym == SDLK_ESCAPE) break;
 
 					
-				if (event.key.keysym.sym == SDLK_SPACE & Jump == 0 & ((CompareHitbox_Y(HeroBox, ListObstacle, speed).direction == 1) | (HeroBox.centry >= 768-HeroBox.sizey/2-50))) {
+				if (event.key.keysym.sym == SDLK_SPACE & Jump == 0 & ((CompareHitbox_Y(HeroBox, ListObstacle).direction == 1) | (HeroBox.centry >= 768-HeroBox.sizey/2-50))) {
 
 					Jump = Jump_H;
 				}
 					
 				if (event.key.keysym.sym == SDLK_RIGHT) {
-					if (CompareHitbox_X(HeroBox, ListObstacle, speed).direction != 4) {
+					if (CompareHitbox_X(HeroBox, ListObstacle).direction != 4) {
 	                                	MvRight = 1;
 						MvLeft = 0;
 	                                }
 	
 				}
 				if (event.key.keysym.sym == SDLK_LEFT) {
-					if (CompareHitbox_X(HeroBox, ListObstacle, speed).direction != 3) {
+					if (CompareHitbox_X(HeroBox, ListObstacle).direction != 3) {
 	                                        MvLeft = 1;
 						MvRight = 0;
 	                                }
@@ -193,56 +193,57 @@ MoveHeroReturn MoveHero(SDL_Renderer *renderer, Hitbox HeroBox, Hitbox ListObsta
                                 }
 			}
 			//Jump
-			if (Jump>0) {
+			if (Jump>0 & (CompareHitbox_Y(HeroBox,ListObstacle).object == NULL | CompareHitbox_Y(HeroBox,ListObstacle).direction != 2)) {
                                 if (Jump > 3*(Jump_H/4)) {
-					HeroBox = Move(renderer, HeroBox, speed, 1);
+					HeroBox = Move(renderer, HeroBox, JUMP_SPEED, 1);
 					Jump -= 1;
 				}	
 				else if (Jump > Jump_H/2) {
-					HeroBox = Move(renderer, HeroBox, 3*(speed/4), 1);
+					HeroBox = Move(renderer, HeroBox, 3*(JUMP_SPEED/4), 1);
 					Jump -= 1;
 				}
 				else if (Jump > Jump_H/4) {
-					HeroBox = Move(renderer, HeroBox, 2*(speed/4), 1);
+					HeroBox = Move(renderer, HeroBox, 2*(JUMP_SPEED/4), 1);
 					Jump -= 1;
 				}
 				else {
-                                	HeroBox = Move(renderer, HeroBox, 1*(speed/4), 1);
+                                	HeroBox = Move(renderer, HeroBox, 1*(JUMP_SPEED/4), 1);
 					Jump -=1;
 				}
                         }
+			else Jump = 0;
 			//gravity
-			if (CompareHitbox_Y(HeroBox, ListObstacle, speed).direction != 1 & HeroBox.centry < 768-HeroBox.sizey/2-20 & Jump == 0) {
+			if (CompareHitbox_Y(HeroBox, ListObstacle).direction != 1 & HeroBox.centry < 768-HeroBox.sizey/2-20 & Jump == 0) {
 	               	        if (grav < Jump_H/4) {
-	                                HeroBox = Move(renderer, HeroBox, speed/4, 2);
+	                                HeroBox = Move(renderer, HeroBox, JUMP_SPEED/4, 2);
 	                                grav += 1;
 	                        }
 	                        else if (grav < Jump_H/2) {
-	                                HeroBox = Move(renderer, HeroBox, 2*(speed/4), 2);
+	                                HeroBox = Move(renderer, HeroBox, 2*(JUMP_SPEED/4), 2);
 	                                grav += 1;
 	                        }
 	                        else if (grav < (Jump_H/4)) {
-	                                HeroBox = Move(renderer, HeroBox, 2*(speed/4), 2);
+	                                HeroBox = Move(renderer, HeroBox, 2*(JUMP_SPEED/4), 2);
 	                                grav += 1;
 	                        }
 	                        else {
-	                                HeroBox = Move(renderer, HeroBox, 4*(speed/4), 2);
+	                                HeroBox = Move(renderer, HeroBox, 4*(JUMP_SPEED/4), 2);
 	                                grav +=1;
 	                        }
 
 			}
 	
-			if (MvRight == 1 & CompareHitbox_X(HeroBox, ListObstacle, speed).direction != 4) {
-				HeroBox =  Move(renderer, HeroBox, speed, 3);
+			if (MvRight == 1 & CompareHitbox_X(HeroBox, ListObstacle).direction != 4) {
+				HeroBox =  Move(renderer, HeroBox, HERO_SPEED, 3);
 			}
-			if (MvLeft == 1 & CompareHitbox_X(HeroBox, ListObstacle, speed).direction != 3) {
-				HeroBox = Move(renderer, HeroBox, speed, 4);
+			if (MvLeft == 1 & CompareHitbox_X(HeroBox, ListObstacle).direction != 3) {
+				HeroBox = Move(renderer, HeroBox, HERO_SPEED, 4);
 			}
 			PrintHero(renderer, HeroBox, ListObstacle, 0,255,255,255);
 	                SDL_PollEvent(&event);
 
 
-		} while (MvLeft == 1 | MvRight == 1 | Jump > 0 | (CompareHitbox_Y(HeroBox, ListObstacle, speed).direction !=1 & HeroBox.centry<(768-HeroBox.sizey/2-20)));
+		} while (MvLeft == 1 | MvRight == 1 | Jump > 0 | (CompareHitbox_Y(HeroBox, ListObstacle).direction !=1 & HeroBox.centry<(768-HeroBox.sizey/2-20)));
 	}
         SDL_PollEvent(&event);
 	MoveHeroReturn MHR;

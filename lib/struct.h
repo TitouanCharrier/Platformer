@@ -31,3 +31,4 @@ typedef struct CompareReturn {
 	int direction;
 	int object;
 }CompareReturn;
+

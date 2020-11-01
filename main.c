@@ -1,20 +1,16 @@
 #include "lib/mainfunc.h"
 
 int main(int argc, char *argv[]) {
+	printf("debug0");
 	//initiatilsation SDL2
 	SDL_Init(SDL_INIT_VIDEO);
 	SDL_Renderer *renderer = NULL;
-	SDL_Renderer *renderbg = NULL;
 	SDL_Window *window = NULL;
 
 	//définition de la fenètre et du renderer
 	window = SDL_CreateWindow("name",0,0,SCREEN_WIDTH,SCREEN_HEIGHT,0);
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	
-	//création des listes de hitbox
-	Hitbox ListBoxMv[5];
-	Hitbox ListBoxSt[10];
-
 	//création de la variable événement
 	SDL_Event event;
 	
@@ -31,33 +27,38 @@ int main(int argc, char *argv[]) {
 	Hitbox ListObstacle[NBR_OBS];
 	for (int i=0; i<NBR_OBS; i++) {
 	        ListObstacle[i].centrx = 200 + 75*i;
-        	ListObstacle[i].centry = 768 - 50*i;
+        	ListObstacle[i].centry = SCREEN_HEIGHT - 50*i;
         	ListObstacle[i].sizex = 75;
        		ListObstacle[i].sizey = 75;
         	ListObstacle[i].r = 0;
         	ListObstacle[i].g = 255;
         	ListObstacle[i].b = 0;
         	ListObstacle[i].a = 255;
-        	ListObstacle[i].fill = 1;
+        	ListObstacle[i].fill = 0;
 
 	}
-	//struct pour faire sortir les info de la fonction MH
-	MoveHeroReturn MHR;
-	MHR.HeroBox = HeroBox;
-	MHR.Jump = JUMP_HEIGHT;
-	MoveHeroReturn MHR2;
-	PrintHero(renderer, HeroBox, ListObstacle, 0,255,255,255);
 	
-	float CountMoutons = 0;
+	//Image
+	char ListImage[NBR_IMAGE][40] = {"rsc/external-content.bmp", "rsc/linux-1598424452826-2734.bmp", "rsc/mouton.bmp"};
+	
+	
+	//charger les images
+	SDL_Texture *ListTexture[NBR_IMAGE];
+	for (int i=0; i<NBR_IMAGE; i++) {
+		ListTexture[i] = Loading(renderer, ListImage[i]);
+	}
+	
+	//struct pour faire sortir les info de la fonction MH
+	PrintHero(renderer, HeroBox, ListObstacle, ListTexture);
+	
 	while (run) {
 		while (SDL_PollEvent(&event)) {
-			MHR2 = (MoveHero(renderer, MHR.HeroBox, ListObstacle, JUMP_HEIGHT, event));
-			MHR.HeroBox = MHR2.HeroBox;
-			MHR.Jump = JUMP_HEIGHT;
+			HeroBox = (MoveHero(renderer, HeroBox, ListObstacle, event, ListTexture));
 			if (event.key.keysym.sym == SDLK_ESCAPE) run = 0;
-			SDL_RenderPresent(renderer);
-			SDL_SetRenderDrawColor(renderer, 0,0,0,0);	
 		}
+		HeroBox = Collision(HeroBox, ListObstacle);
+		PrintHero(renderer, HeroBox, ListObstacle, ListTexture);
+		printf("%d", (CompareHitbox_Y(HeroBox, ListObstacle)).direction);
                 SDL_Delay(16);      
 	}	
 	//on quitte proprement (je crois) 

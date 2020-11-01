@@ -5,11 +5,13 @@ CompareReturn CompareHitbox_X(Hitbox mobile, Hitbox statique[]);
 
 CompareReturn CompareHitbox_Y(Hitbox mobile, Hitbox statique[]);
 
-void PrintHero(SDL_Renderer *renderer, Hitbox HeroBox, Hitbox ListObstacle[], int, int, int, int);
+SDL_Texture *Loading(SDL_Renderer *renderer, char Image[]);
+
+void PrintHero(SDL_Renderer *renderer, Hitbox HeroBox, Hitbox ListObstacle[], SDL_Texture *ListTexture[]);
 
 Hitbox Collision(Hitbox HeroBox, Hitbox ListObstacle[]);
 
 Hitbox Move(SDL_Renderer *renderer,Hitbox subject,int speed, int direction);
 
-MoveHeroReturn MoveHero(SDL_Renderer *renderer, Hitbox HeroBox, Hitbox ListObstacle[],int Jump_H, SDL_Event event);
+Hitbox MoveHero(SDL_Renderer *renderer, Hitbox HeroBox, Hitbox ListObstacle[], SDL_Event event, SDL_Texture *ListTexture[]);
 

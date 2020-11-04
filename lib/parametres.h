@@ -4,7 +4,11 @@
 #define JUMP_SPEED	  20
 #define PI		  3.14159265358979323846264338379
 #define HERO_SPEED 	  10
-#define False		  0
-#define True 		  1
+#define false		  0
+#define true 		  1
 #define NBR_OBS 	  15	
 #define NBR_IMAGE	  3
+#define NORTH		  1
+#define SOUTH		  2
+#define EAST		  3
+#define WEST		  4

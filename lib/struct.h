@@ -28,7 +28,7 @@ typedef struct MoveHeroReturn {
 } MoveHeroReturn;
 
 typedef struct CompareReturn {
-	int direction;
+	int direction[5];
 	int object;
 }CompareReturn;
 

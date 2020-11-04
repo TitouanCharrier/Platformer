@@ -1,9 +1,7 @@
 #include "geometrie_SDL2.h"
 #include "parametres.h"
 
-CompareReturn CompareHitbox_X(Hitbox mobile, Hitbox statique[]);
-
-CompareReturn CompareHitbox_Y(Hitbox mobile, Hitbox statique[]);
+CompareReturn CompareHitbox(Hitbox mobile, Hitbox statique[]);
 
 SDL_Texture *Loading(SDL_Renderer *renderer, char Image[]);
 

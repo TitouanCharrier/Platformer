@@ -1,7 +1,7 @@
 #include "lib/mainfunc.h"
 
 int main(int argc, char *argv[]) {
-	printf("debug0");
+	
 	//initiatilsation SDL2
 	SDL_Init(SDL_INIT_VIDEO);
 	SDL_Renderer *renderer = NULL;
@@ -39,7 +39,8 @@ int main(int argc, char *argv[]) {
 	}
 	
 	//Image
-	char ListImage[NBR_IMAGE][40] = {"rsc/external-content.bmp", "rsc/linux-1598424452826-2734.bmp", "rsc/mouton.bmp"};
+	char ListImage[NBR_IMAGE][40] = {"rsc/external-content.bmp", 
+		"rsc/linux-1598424452826-2734.bmp", "rsc/mouton.bmp"};
 	
 	
 	//charger les images
@@ -56,12 +57,15 @@ int main(int argc, char *argv[]) {
 			HeroBox = (MoveHero(renderer, HeroBox, ListObstacle, event, ListTexture));
 			if (event.key.keysym.sym == SDLK_ESCAPE) run = 0;
 		}
-		HeroBox = Collision(HeroBox, ListObstacle);
-		PrintHero(renderer, HeroBox, ListObstacle, ListTexture);
-		printf("%d", (CompareHitbox_Y(HeroBox, ListObstacle)).direction);
+		//debug
+		/*	
+		for (int i=0; i<5; i++) {
+			printf("%d", (CompareHitbox(HeroBox, ListObstacle)).direction[i]);
+		}*/
+		//wait
                 SDL_Delay(16);      
 	}	
-	//on quitte proprement (je crois) 
+	//quit SDL
 	SDL_DestroyRenderer(renderer);
 	SDL_Quit();
 }

@@ -1,5 +1,5 @@
-#include "geometrie_SDL2.h"
-#include "parametres.h"
+#include "../lib/geometrie_SDL2.h"
+#include "settings.h"
 
 CompareReturn CompareHitbox(Hitbox mobile, Hitbox statique[]);
 

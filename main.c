@@ -1,4 +1,4 @@
-#include "lib/mainfunc.h"
+#include "src/mainfunc.h"
 
 int main(int argc, char *argv[]) {
 	

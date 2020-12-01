@@ -4,29 +4,34 @@
 #define False 0
 #define True 1
 
+//create a regular empty polygon
 int RegulHollowPoly(SDL_Renderer *renderer,int nbrCote,int tailleCote,int centrx,int centry, int facing, int r,int g,int b,int a) {
         SDL_SetRenderDrawColor(renderer, r,g,b,a);
         float rayon = tailleCote/(2*sin(pi/nbrCote));
 
-        //je calcule ici l'angle qui va se répéter dans tout le polygone.
+        //set main angle repeated in the polygon
         float degAngle = (180-(360/nbrCote));
         float radAngle = pi-(degAngle/180)*pi;
 
-        //on fait une liste qui va contenir tout les points.
+        //list who store all points
         SDL_Point poly[abs(nbrCote*tailleCote)];
         int counter = 0;
-        //un for qui répète autant de fois qu'il y a de cotés
+
+        //repeat for each side
         for (int j=0; j<nbrCote; j++) {
                 float newAngle = radAngle * j;
-                //celui là créé et stocke les points un par un
+
+                //create and store point
                 for (int i=1; i<=tailleCote; i++) {
                         int newx;
                         int newy;
-                        //les 3 lignes commentés ci dessous sont si on veut les voirs s'afficher progressivement
+                        //uncomment the following to show the poly appear (slow)
                         //SDL_RenderDrawPoints(renderer, poly, nbrCote*tailleCote);
                         //SDL_RenderPresent(renderer);
                         //SDL_Delay(4);
-
+			
+			//add a basic rotation function with only for directions 
+			//North 1, South 2, East 3, West 4
                         switch (facing) {
                                 case (2) :
                                         newx = cos(newAngle)*i;
@@ -71,12 +76,14 @@ int RegulHollowPoly(SDL_Renderer *renderer,int nbrCote,int tailleCote,int centrx
                         }
                 }
         }
-        //on dessine les points a patir de la liste (ca retourne 0 en cas de succés)
+        //drawing each point contained in poly list
         SDL_RenderDrawPoints(renderer, poly, nbrCote*tailleCote);
         SDL_SetRenderDrawColor(renderer, 0,0,0,0);
 }
 
-int RegulPoly(SDL_Renderer *renderer,int nbrCote,int tailleCote,int centrx,int centry, int facing, int r,int g,int b,int a, bool hollow ) {
+//enable to create full polygons (work in progress)
+int RegulPoly(SDL_Renderer *renderer, int nbrCote, int tailleCote,
+int centrx, int centry, int facing, int r,int g,int b,int a, bool hollow ) {
 	if (hollow == 1) {
 		for(int i=1; i<tailleCote; i++) {
 			RegulHollowPoly(renderer, nbrCote, i, centrx, centry, facing, r, g, b, a );
@@ -87,6 +94,7 @@ int RegulPoly(SDL_Renderer *renderer,int nbrCote,int tailleCote,int centrx,int c
 	}
 }
 
+//Create circle with a radius and a center (and rgba)
 void CreateCircle(SDL_Renderer *renderer, int centrx, int centry, int ray, int r, int g, int b, int a) {
         SDL_SetRenderDrawColor(renderer, r, g, b, a);
         int res = 500;
@@ -98,6 +106,7 @@ void CreateCircle(SDL_Renderer *renderer, int centrx, int centry, int ray, int r
                SDL_RenderDrawPoints(renderer,cercle , res);
 }
 
+//create a rectangle with a center and both side size (rgba and fill state)
 int CreateRectangle(SDL_Renderer *renderer, int centrx, int centry, int sizex, int sizey, int r, int g, int b, int a, bool fill) {
         SDL_SetRenderDrawColor(renderer, r, g, b, a);
         if (fill) {

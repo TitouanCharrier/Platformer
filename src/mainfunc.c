@@ -277,3 +277,33 @@ SDL_Event event, SDL_Texture *ListTexture[]) {
 	return HeroBox;
 
 }
+void Play_menu() {
+TTF_Font * Sans = TTF_OpenFont("/usr/share/fonts/liberation/LiberationMono-Regular.ttf",256);
+    //init menu window and renderer
+    SDL_Renderer *R_menu = NULL;
+    SDL_Window *W_menu = NULL;
+
+	//set menu windw and renderer
+    W_menu = SDL_CreateWindow("Titre",SCREEN_WIDTH/2-125,SCREEN_HEIGHT/2-250,250,500,0);
+    R_menu = SDL_CreateRenderer(W_menu,-1,SDL_RENDERER_ACCELERATED);
+
+
+    //menu loop
+    //int menu_run = 1;
+    SDL_Color white = {255,255,255};
+    //while (menu_run !=0) {
+    CreateRectangle(R_menu,125,125/2,250,125,255,88,0,255,0);
+    CreateRectangle(R_menu,125,125+125/2,250,125,255,88,0,255,0);
+    CreateRectangle(R_menu,125,2*125+125/2,250,125,255,88,0,255,0);
+    CreateRectangle(R_menu,125,3*125+125/2,250,125,255,88,0,255,0);
+    SDL_Surface *Choix_1 = TTF_RenderText_Solid(Sans,"1920 x 1080", white);
+    SDL_Texture * T_Choix_1 = SDL_CreateTextureFromSurface(R_menu,Choix_1);
+    SDL_Rect Rect_Choix_1;
+    Rect_Choix_1.x = 10;
+    Rect_Choix_1.y = 25;
+    Rect_Choix_1.w = 230;
+    Rect_Choix_1.h = 75;
+    SDL_RenderCopy(R_menu,T_Choix_1,NULL,&Rect_Choix_1);
+    SDL_RenderPresent(R_menu);
+    SDL_Delay(10000);
+}

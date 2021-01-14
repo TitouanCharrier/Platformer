@@ -4,6 +4,13 @@ int main(int argc, char *argv[]) {
 	
 	//starting SL2
 	SDL_Init(SDL_INIT_VIDEO);
+	
+	//starting TTF (to display text))
+	TTF_Init();
+	
+	//Display menu
+	Play_menu();
+
 	SDL_Renderer *renderer = NULL;
 	SDL_Window *window = NULL;
 

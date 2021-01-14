@@ -1,7 +1,7 @@
 main : main.c lib/geometrie_SDL2.c src/mainfunc.c src/settings.h
 	gcc -c lib/geometrie_SDL2.c -lSDL2 -lm	-o geometrie.o
-	gcc -c src/mainfunc.c -lSDL2 -lm	-o mainfunc.o
-	gcc main.c -o main geometrie.o mainfunc.o -lSDL2 -lm -Wall
+	gcc -c src/mainfunc.c -lSDL2 -lm -lSDL2_ttf -o mainfunc.o
+	gcc main.c -o main geometrie.o mainfunc.o -lSDL2 -lSDL2_ttf -lm -Wall
 	rm geometrie.o mainfunc.o
 	./main
 window : main.c

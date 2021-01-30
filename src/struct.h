@@ -32,3 +32,7 @@ typedef struct CompareReturn {
 	int object;
 }CompareReturn;
 
+typedef struct Couple {
+	int RESX;
+	int RESY;
+}Couple;

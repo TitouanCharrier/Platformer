@@ -74,6 +74,7 @@ void PrintHero(SDL_Renderer *renderer, Hitbox HeroBox, Hitbox ListObstacle[], SD
 	//print background
 	SDL_RenderCopy(renderer, ListTexture[1], NULL, NULL);
 
+	/*
 	//print hitboxs
 	CreateRectangle(renderer, HeroBox.centrx, HeroBox.centry, HeroBox.sizex, HeroBox.sizey, 255, 0, 0, 255, 0); 
 	for (int i=0; i<NBR_OBS; i++) {
@@ -82,7 +83,7 @@ void PrintHero(SDL_Renderer *renderer, Hitbox HeroBox, Hitbox ListObstacle[], SD
 				ListObstacle[i].sizex,ListObstacle[i].sizey,
 				ListObstacle[i].r,ListObstacle[i].g,ListObstacle[i].b,
 				ListObstacle[i].a,ListObstacle[i].fill);  
-	}	
+	}*/	
 	//create Hero image
 	SDL_Rect RectangleHero= {HeroBox.centrx-HeroBox.sizex/2, 
 		HeroBox.centry-HeroBox.sizey/2,HeroBox.sizex,HeroBox.sizey};
@@ -97,8 +98,6 @@ void PrintHero(SDL_Renderer *renderer, Hitbox HeroBox, Hitbox ListObstacle[], SD
 	
 	//add Hero to renderer
 	SDL_RenderCopy(renderer, ListTexture[0], NULL, &RectangleHero);
-	//print hitbox when uncommented
-	//CreateRectangle(renderer,HeroBox.centrx, HeroBox.centry, HeroBox.sizex, HeroBox.sizey, r,g,b,a, 0);
 	
 	//printing
 	SDL_RenderPresent(renderer);
@@ -132,22 +131,22 @@ Hitbox Move(SDL_Renderer *renderer,Hitbox subject,int speed, int direction) {
 }
 
 //replace the Hero in terms of collisions
-Hitbox Collision(Hitbox HeroBox, Hitbox ListObstacle[]) {
+Hitbox Collision(Hitbox HeroBox, Hitbox ListObstacle[], int MvLeft, int MvRight) {
 	int objecty = CompareHitbox(HeroBox, ListObstacle).object;	
 	int objectx = CompareHitbox(HeroBox, ListObstacle).object;	
 
-	if (CompareHitbox(HeroBox, ListObstacle).direction[NORTH] == true) {
+	if (CompareHitbox(HeroBox, ListObstacle).direction[NORTH] == true && MvLeft != 1 && MvRight != 1) {
                 HeroBox.centry = ListObstacle[objecty].centry - ListObstacle[objecty].sizey/2 - HeroBox.sizey/2 -1;
         }
 
-	if (CompareHitbox(HeroBox, ListObstacle).direction[WEST] == true) {
+	if (CompareHitbox(HeroBox, ListObstacle).direction[WEST] == true && MvLeft == 1) {
                 HeroBox.centrx = ListObstacle[objectx].centrx - ListObstacle[objectx].sizex/2 - HeroBox.sizex/2 +1;
         }
-        if (CompareHitbox(HeroBox, ListObstacle).direction[EAST] == true) {
+        if (CompareHitbox(HeroBox, ListObstacle).direction[EAST] == true && MvRight == 1) {
                 HeroBox.centrx = ListObstacle[objectx].centrx + ListObstacle[objectx].sizex/2 + HeroBox.sizex/2 -1;
         }
 
-	if (CompareHitbox(HeroBox, ListObstacle).direction[SOUTH] == true) {
+	if (CompareHitbox(HeroBox, ListObstacle).direction[SOUTH] == true && MvLeft != 1 && MvRight != 1) {
         	HeroBox.centry = ListObstacle[objecty].centry + ListObstacle[objecty].sizey/2 + HeroBox.sizey/2 +1;
 	}
 	return HeroBox;
@@ -155,12 +154,15 @@ Hitbox Collision(Hitbox HeroBox, Hitbox ListObstacle[]) {
 
 //main movement function for the charactere
 Hitbox MoveHero(SDL_Renderer *renderer,
-Hitbox HeroBox, Hitbox ListObstacle[],
-SDL_Event event, SDL_Texture *ListTexture[]) {
+	Hitbox HeroBox, Hitbox ListObstacle[],
+	SDL_Event event, SDL_Texture *ListTexture[],
+	int RESX, int RESY) {
 	
-	float Jump = 0;
-	bool MvRight = 0;
-	bool MvLeft = 0;
+	int Jump_call = 0;
+	int MvRight = 0;
+	int MvLeft = 0;
+	float grav = 1;
+	float jump = JUMP_HEIGHT;
 
 	//detect event type
 	if (event.type == SDL_KEYDOWN) {
@@ -170,26 +172,26 @@ SDL_Event event, SDL_Texture *ListTexture[]) {
 		do {
 			if (event.type == SDL_KEYDOWN) {
 				
-				//detecte close call
+				//detect exit call
 				if (event.key.keysym.sym == SDLK_ESCAPE) break;
 
 				//detect jump call
 				if (event.key.keysym.sym == SDLK_SPACE 
-				& Jump == 0 
-				& ((CompareHitbox(HeroBox, ListObstacle).direction[NORTH] == true) 
-				| (HeroBox.centry >= SCREEN_HEIGHT-HeroBox.sizey/2-50))) {
+				&& Jump_call == 0 
+				&& ((CompareHitbox(HeroBox, ListObstacle).direction[NORTH] == true) 
+				|| (HeroBox.centry >= RESY-HeroBox.sizey/2-20))) {
 
-					Jump = JUMP_HEIGHT;
+					Jump_call = 1;
 				}
 
 				//detect start arrow call
 				if (event.key.keysym.sym == SDLK_RIGHT) {
-	                                MvRight = 1;
+	                MvRight = 1;
 					MvLeft = 0;
 	                                	
 				}
 				else if (event.key.keysym.sym == SDLK_LEFT) {
-	                                MvLeft = 1;
+	                MvLeft = 1;
 					MvRight = 0;
 	
 				}
@@ -201,109 +203,112 @@ SDL_Event event, SDL_Texture *ListTexture[]) {
 					MvLeft = 0;
 				}
 				if (event.key.keysym.sym == SDLK_RIGHT) {
-                                        MvRight = 0;
-                                }
+                    MvRight = 0;
+                }
 			}
 
 			//Jump run
-			if (Jump>0 & (CompareHitbox(HeroBox,ListObstacle).object == NULL 
-			| CompareHitbox(HeroBox,ListObstacle).direction[SOUTH] != true)) {
-                                
-				if (Jump > 3*(JUMP_HEIGHT/4)) {
-					HeroBox = Move(renderer, HeroBox, 2*JUMP_SPEED, 1);
-					Jump -= 1;
-				}	
-				else if (Jump > JUMP_HEIGHT/2) {
-					HeroBox = Move(renderer, HeroBox, 6*(JUMP_SPEED/4), 1);
-					Jump -= 1;
+			if (Jump_call == 1) {
+				jump -= 1;
+				for(int i=0; i<pow(jump/7,2); i++) {
+					if (CompareHitbox(HeroBox, ListObstacle).direction[SOUTH] != true 
+					&& jump>0 ) {
+            	        HeroBox =  Move(renderer, HeroBox, 1, NORTH);
+            	    }
+            	    else Jump_call = 0;
+
 				}
-				else if (Jump > JUMP_HEIGHT/4) {
-					HeroBox = Move(renderer, HeroBox, 4*(JUMP_SPEED/4), 1);
-					Jump -= 1;
-				}
-				else {
-                                	HeroBox = Move(renderer, HeroBox, 2*(JUMP_SPEED/4), 1);
-					Jump -=1;
-				}
-                        }
-			else Jump = 0;
+			} else jump = JUMP_HEIGHT;
+                               
+
 
 			//gravity
-			if (CompareHitbox(HeroBox, ListObstacle).direction[NORTH] != true 
-			& HeroBox.centry < SCREEN_HEIGHT-HeroBox.sizey/2-20 
-			& Jump == 0) {
-	               	        
-				if (1==1) {
-					for(int i=0; i<JUMP_SPEED; i++) {
-                                        	if(CompareHitbox(HeroBox, ListObstacle).direction[NORTH] != true) {
-                                                	HeroBox =  Move(renderer, HeroBox, 1, 2);
-                                        	}
-                                	}
-	                        }
+			if (CompareHitbox(HeroBox, ListObstacle).direction[NORTH] != true) {
+				if (grav <= JUMP_HEIGHT) grav ++;
 
-			}
+				for(int i=0; i<pow(grav/7,2); i++) {
+					if (CompareHitbox(HeroBox, ListObstacle).direction[NORTH] != true 
+					& HeroBox.centry < RESY-HeroBox.sizey/2-20 
+					& Jump_call == 0) {
+            	        HeroBox =  Move(renderer, HeroBox, 1, SOUTH);
+            	    } else grav = 1;
+				}
+			} else grav = 1;
 			
 			//Displacement
-			if (MvRight == 1) {
-				for(int i=0; i<HERO_SPEED; i++) {
-					if(CompareHitbox(HeroBox, ListObstacle).direction[WEST] != true) { 
-						HeroBox =  Move(renderer, HeroBox, 1, 3);
+			for(int j=0; j<HERO_SPEED; j++) {
+
+				if (MvRight == 1 && CompareHitbox(HeroBox, ListObstacle).direction[WEST] != true) {
+
+				// borders motion right
+					if (HeroBox.centrx > RESX-RESX/3) {
+						for (int i=0; i<NBR_OBS; i++) {
+							ListObstacle[i].centrx -= 1;
+						}
 					}
-				}
-			}
-			if (MvLeft == 1 ) {
-				for(int i=0; i<HERO_SPEED; i++) {
-                                        if(CompareHitbox(HeroBox, ListObstacle).direction[EAST] != true) { 
-                                                HeroBox =  Move(renderer, HeroBox, 1, 4);         
-                                        }
-                                }            
+
+					else {
+						//hero motion right
+						HeroBox =  Move(renderer, HeroBox, 1, EAST);
+					}
+				}	
+
+				if (MvLeft == 1 && CompareHitbox(HeroBox, ListObstacle).direction[EAST] != true) {
+					
+					//borders motion left
+					if (HeroBox.centrx < RESX/3) {
+						for (int i=0; i<NBR_OBS; i++) {
+							ListObstacle[i].centrx += 1;
+						}
+					}
+
+					else {
+						//hero motion left
+                	    HeroBox =  Move(renderer, HeroBox, 1, WEST);         
+                	}            
+                }
 
 			}
+
 			//other methode to fix collision
-			//HeroBox = Collision(HeroBox, ListObstacle);
+			//HeroBox = Collision(HeroBox, ListObstacle, MvLeft, MvRight);
 			
 			//print the scene
 			PrintHero(renderer, HeroBox, ListObstacle, ListTexture);
 
 			//detect event
-	                SDL_PollEvent(&event);
+	        SDL_PollEvent(&event);
 
 
-		} while (MvLeft == 1 | MvRight == 1 | Jump > 0 
+		} while (MvLeft == 1 | MvRight == 1 | jump == 1 
 		| (CompareHitbox(HeroBox, ListObstacle).direction[NORTH] != true 
-		& HeroBox.centry<(SCREEN_HEIGHT-HeroBox.sizey/2-20)));
+		& HeroBox.centry<(RESY-HeroBox.sizey/2-20)));
 	}
         SDL_PollEvent(&event);
 	return HeroBox;
 
 }
-void Play_menu() {
-TTF_Font * Sans = TTF_OpenFont("/usr/share/fonts/liberation/LiberationMono-Regular.ttf",256);
-    //init menu window and renderer
-    SDL_Renderer *R_menu = NULL;
-    SDL_Window *W_menu = NULL;
 
-	//set menu windw and renderer
-    W_menu = SDL_CreateWindow("Titre",SCREEN_WIDTH/2-125,SCREEN_HEIGHT/2-250,250,500,0);
-    R_menu = SDL_CreateRenderer(W_menu,-1,SDL_RENDERER_ACCELERATED);
+SDL_Texture *Print_Text(SDL_Renderer *renderer, char text[],int x, int y, int w, int h,TTF_Font *font) {
+	SDL_Rect Rect;
+	SDL_Color Orange = {255,255,255};
+    SDL_Surface *Choix_1 = TTF_RenderText_Blended(font,text, Orange);
+    SDL_Texture * T_Choix_1 = SDL_CreateTextureFromSurface(renderer,Choix_1);
+    Rect.x = x;
+    Rect.y = y;
+    Rect.w = w;
+   	Rect.h = h;
+    SDL_RenderCopy(renderer,T_Choix_1,NULL,&Rect);
+    SDL_RenderPresent(renderer);
+    return T_Choix_1;
+}
 
-
-    //menu loop
-    //int menu_run = 1;
-    SDL_Color white = {255,255,255};
-    //while (menu_run !=0) {
-    CreateRectangle(R_menu,125,125/2,250,125,255,88,0,255,0);
-    CreateRectangle(R_menu,125,125+125/2,250,125,255,88,0,255,0);
-    CreateRectangle(R_menu,125,2*125+125/2,250,125,255,88,0,255,0);
-    CreateRectangle(R_menu,125,3*125+125/2,250,125,255,88,0,255,0);
-    SDL_Surface *Choix_1 = TTF_RenderText_Solid(Sans,"1920 x 1080", white);
-    SDL_Texture * T_Choix_1 = SDL_CreateTextureFromSurface(R_menu,Choix_1);
-    SDL_Rect Rect_Choix_1;
-    Rect_Choix_1.x = 10;
-    Rect_Choix_1.y = 25;
-    Rect_Choix_1.w = 230;
-    Rect_Choix_1.h = 75;
-    SDL_RenderCopy(R_menu,T_Choix_1,NULL,&Rect_Choix_1);
-    SDL_RenderPresent(R_menu);
-    SDL_Delay(10000);
+//Detect screen resolution
+Couple Get_Res() {
+	SDL_DisplayMode screen;
+	SDL_GetCurrentDisplayMode(0,&screen);
+	Couple retour;
+	retour.RESX = screen.w;
+	retour.RESY = screen.h;
+	return retour;
 }

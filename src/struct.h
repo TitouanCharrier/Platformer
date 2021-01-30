@@ -5,7 +5,7 @@ typedef struct Hitbox {
 	int centrx;
 	int centry;
 	int sizex;
-        int sizey;
+    int sizey;
 	int r;
 	int g;
 	int b;

@@ -1,0 +1,1 @@
+rsc/Decors_statiques/Obstacle.bmp

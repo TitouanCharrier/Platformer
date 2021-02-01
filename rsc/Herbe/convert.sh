@@ -1,4 +1,5 @@
-#!/bin/zsh
+#!/usr/bin/zsh
+
 convert 0020.png 0020.bmp
 convert 0021.png 0021.bmp
 convert 0022.png 0022.bmp
@@ -440,3 +441,4 @@ convert 0457.png 0457.bmp
 convert 0458.png 0458.bmp
 convert 0459.png 0459.bmp
 convert 0460.png 0460.bmp
+

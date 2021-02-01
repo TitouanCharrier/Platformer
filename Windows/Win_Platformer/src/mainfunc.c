@@ -1,5 +1,5 @@
 #include "mainfunc.h"
-
+#define pi 3.14159265358979323846264338379
 //compare hitbox and a hitbox list
 CompareReturn CompareHitbox(Hitbox **ListObjects) {
 	CompareReturn final;
@@ -90,21 +90,22 @@ void PrintHero(SDL_Renderer *renderer, Hitbox **ListObjects, SDL_Texture ***List
     //add Herbe only
     for (int i=0; i<100; i++) {
         SDL_Rect RectObstacle = {ListObjects[3][i].centrx-ListObjects[3][i].sizex/2,
-        (ListObjects[3][i].centry-ListObjects[3][i].sizey/2)-55,ListObjects[3][i].sizex,ListObjects[3][i].sizey};
+        (ListObjects[3][i].centry-ListObjects[3][i].sizey/2)-40,ListObjects[3][i].sizex,ListObjects[3][i].sizey};
         ListRectObstacle[i] = RectObstacle;
-        SDL_RenderCopy(renderer, ListTexture[3][((IncrHerbe/3))%440+3], NULL, &ListRectObstacle[i]);
+        SDL_RenderCopy(renderer, ListTexture[3][(IncrHerbe/3)%440], NULL, &ListRectObstacle[i]);
     }
 
-    //print hitboxs
+    /*print hitboxs
 	for (int i=0; i<NBR_OBJ; i++) {
         for (int j=0; j<ListObjects[i][0].LengthList; j++) {
-	CreateRectangle(renderer,
+	Rectangle(renderer,
 		ListObjects[i][j].centrx,ListObjects[i][j].centry,
-		ListObjects[i][j].sizex,ListObjects[i][j].sizey,
+		ListObjects[i][j].sizex,ListObjects[i][j].sizey,(-pi/4),
 		ListObjects[i][j].r,ListObjects[i][j].g,ListObjects[i][j].b,
-		ListObjects[i][j].a,ListObjects[i][j].fill);
-        }//
-	}
+		ListObjects[i][j].a);
+
+        }
+	}*/
 
 	//printing
 	SDL_RenderPresent(renderer);
@@ -140,7 +141,7 @@ Hitbox Move(SDL_Renderer *renderer,Hitbox subject,int speed, int direction) {
 //main movement function for the charactere
 Hitbox MoveHero(SDL_Renderer *renderer,
 	Hitbox **ListObjects,
-	SDL_Event event, SDL_Texture *ListTexture[],
+	SDL_Event event, SDL_Texture ***ListTexture,
 	int RESX, int RESY, int* p_IncrHerbe) {
 
 	int Jump_call = 0;
@@ -232,6 +233,8 @@ Hitbox MoveHero(SDL_Renderer *renderer,
                             }
                         }
                     }
+
+
                 else {
 						//hero motion right
 						ListObjects[0][0] =  Move(renderer, ListObjects[0][0], 1, EAST);

@@ -439,4 +439,3 @@ rsc/Herbe/0457.bmp
 rsc/Herbe/0458.bmp
 rsc/Herbe/0459.bmp
 rsc/Herbe/0460.bmp
-

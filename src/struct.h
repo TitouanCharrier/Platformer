@@ -38,3 +38,10 @@ typedef struct Couple {
 	int RESY;
 }Couple;
 
+typedef struct BorderReturn {
+	int right;
+	int left;
+	int up;
+	int down;
+}BorderReturn;
+

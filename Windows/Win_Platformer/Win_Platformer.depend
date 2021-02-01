@@ -1,8 +1,8 @@
 # depslib dependency file v1.0
-1610664131 source:c:\users\titouan\titou_sync\code\projets\platformer\windows\win_platformer\lib\geometrie_sdl2.c
+1612190850 source:c:\users\titouan\titou_sync\code\projets\platformer\windows\win_platformer\lib\geometrie_sdl2.c
 	"geometrie_SDL2.h"
 
-1610664131 c:\users\titouan\titou_sync\code\projets\platformer\windows\win_platformer\lib\geometrie_sdl2.h
+1612206727 c:\users\titouan\titou_sync\code\projets\platformer\windows\win_platformer\lib\geometrie_sdl2.h
 	<SDL2/SDL.h>
 	<math.h>
 	<stdio.h>
@@ -377,12 +377,12 @@
 	"begin_code.h"
 	"close_code.h"
 
-1612167044 c:\users\titouan\titou_sync\code\projets\platformer\windows\win_platformer\src\struct.h
+1612204816 c:\users\titouan\titou_sync\code\projets\platformer\windows\win_platformer\src\struct.h
 
-1612173981 source:c:\users\titouan\titou_sync\code\projets\platformer\windows\win_platformer\main.c
+1612205373 source:c:\users\titouan\titou_sync\code\projets\platformer\windows\win_platformer\main.c
 	"src/mainfunc.h"
 
-1612174192 c:\users\titouan\titou_sync\code\projets\platformer\windows\win_platformer\src\mainfunc.h
+1612206712 c:\users\titouan\titou_sync\code\projets\platformer\windows\win_platformer\src\mainfunc.h
 	"../lib/geometrie_SDL2.h"
 	"settings.h"
 	"Bank.h"
@@ -390,14 +390,14 @@
 
 1612134946 c:\users\titouan\titou_sync\code\projets\platformer\windows\win_platformer\src\settings.h
 
-1612174165 source:c:\users\titouan\titou_sync\code\projets\platformer\windows\win_platformer\src\mainfunc.c
+1612206437 source:c:\users\titouan\titou_sync\code\projets\platformer\windows\win_platformer\src\mainfunc.c
 	"mainfunc.h"
 
-1612169149 source:c:\users\titouan\titou_sync\code\projets\platformer\windows\win_platformer\src\bank.c
+1612202838 source:c:\users\titouan\titou_sync\code\projets\platformer\windows\win_platformer\src\bank.c
 	"mainfunc.h"
 
 1612086305 c:\users\titouan\titou_sync\code\projets\platformer\windows\win_platformer\src\bank.h
 
-1612173204 source:c:\users\titouan\titou_sync\code\projets\platformer\windows\win_platformer\src\banktexture.c
+1612203679 source:c:\users\titouan\titou_sync\code\projets\platformer\windows\win_platformer\src\banktexture.c
 	"mainfunc.h"
 

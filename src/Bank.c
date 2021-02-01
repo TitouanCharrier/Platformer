@@ -17,13 +17,17 @@ Hitbox **LoadObjects(int WIDTH, int HEIGHT) {
     Hitbox *ListHero = malloc(sizeof(Hitbox));
     ListHero[0].centrx = WIDTH/4;
     ListHero[0].centry = HEIGHT/2;
-    ListHero[0].sizex = 447/9;
-    ListHero[0].sizey = 827/9;
+    ListHero[0].sizex = 447/8;
+    ListHero[0].sizey = 827/8;
     ListHero[0].LengthList = 1;
+    ListHero[0].r = 255;
+    ListHero[0].g = 100;
     ListObjects[0] = ListHero;
 
+
     //FondBox_Id_1
-    Hitbox *ListFond = malloc(sizeof(Hitbox));
+
+    Hitbox *ListFond = malloc(2*sizeof(Hitbox));
     ListFond[0].centrx = WIDTH/2;
     ListFond[0].centry = HEIGHT/6;
     ListFond[0].sizex = 1920*5;
@@ -36,8 +40,8 @@ Hitbox **LoadObjects(int WIDTH, int HEIGHT) {
 	for (int i=0; i<NumberWood; i++) {
         ListWood[i].centrx = (rand() % WIDTH *20)-WIDTH*10;
         ListWood[i].centry = rand() % HEIGHT;
-        ListWood[i].sizex = 144;
-        ListWood[i].sizey = 96;
+        ListWood[i].sizex = 100;
+        ListWood[i].sizey = 100;
         ListWood[i].g = 255;
         ListWood[i].LengthList = NumberWood;
 	}
@@ -46,10 +50,10 @@ Hitbox **LoadObjects(int WIDTH, int HEIGHT) {
     //GrassBlock_Id_3
     Hitbox *ListGrass = malloc(NumberGrass * sizeof(Hitbox));
     for (int i=0; i<NumberGrass; i++) {
-        ListGrass[i].centrx = 225*i-5*WIDTH;
-        ListGrass[i].centry = HEIGHT+5;
-        ListGrass[i].sizex = 300;
-        ListGrass[i].sizey = 100;
+        ListGrass[i].centrx = 800/2*i-5*WIDTH;
+        ListGrass[i].centry = HEIGHT+15;
+        ListGrass[i].sizex = 800/2;
+        ListGrass[i].sizey = 120/2;
         ListGrass[i].b = 255;
         ListGrass[i].LengthList = NumberGrass;
     }

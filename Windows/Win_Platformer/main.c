@@ -36,17 +36,14 @@ int main(int argc, char *argv[]) {
 	bool run = 1;
 
     //loading objects
-    SDL_Texture ***ListTexture = LoadTexture(renderer);
-
     Hitbox **ListObjects = LoadObjects(WIDTH,HEIGHT);
-    printf("%d",ListObjects[1][125].sizey);
 
     //load texture
-    SDL_Texture **ListTextures = LoadTexture(renderer);
-
+    SDL_Texture ***ListTextures = LoadTexture(renderer);
+   	 
 	//printing scene
 	PrintHero(renderer, ListObjects, ListTextures, *p_IncrHerbe);
-
+	
 	//main while
 	while (run) {
 
@@ -60,7 +57,6 @@ int main(int argc, char *argv[]) {
             if (event.key.keysym.sym == SDLK_ESCAPE) run = 0;
 
 		}
-
 		//print scene
 		PrintHero(renderer, ListObjects, ListTextures, *p_IncrHerbe);
 		*p_IncrHerbe += 1;
@@ -73,7 +69,7 @@ int main(int argc, char *argv[]) {
 	printf("end reached");
 	SDL_DestroyRenderer(renderer);
 	SDL_Quit();
-
+	
     return 0;
 }
 

@@ -34,27 +34,13 @@ int main(int argc, char *argv[]) {
 
 	//set var to run the main while
 	bool run = 1;
-    
+
     //loading objects
-    
     Hitbox **ListObjects = LoadObjects(WIDTH,HEIGHT);
-    printf("%d",ListObjects[1][125].sizey);
-  
-    // Loading textures
-    FILE *fichier_textures = NULL;
-    fichier_textures = fopen("rsc/textures.txt","r");
 
-    //loading Textures
-    SDL_Texture *ListTextures[443];
-    char ListTexturesName[443][40];
-    for (int i=0; i<443; i++) {
-        fgets(ListTexturesName[i],40,fichier_textures);
-        ListTexturesName[i][strlen(ListTexturesName[i])-1] = '\0';
-        printf("%s\n",ListTexturesName[i]);
-        ListTextures[i] = Loading(renderer, ListTexturesName[i]);
-
-    }
-
+    //load texture
+    SDL_Texture ***ListTextures = LoadTexture(renderer);
+   	 
 	//printing scene
 	PrintHero(renderer, ListObjects, ListTextures, *p_IncrHerbe);
 	
@@ -71,7 +57,6 @@ int main(int argc, char *argv[]) {
             if (event.key.keysym.sym == SDLK_ESCAPE) run = 0;
 
 		}
-
 		//print scene
 		PrintHero(renderer, ListObjects, ListTextures, *p_IncrHerbe);
 		*p_IncrHerbe += 1;
@@ -79,12 +64,12 @@ int main(int argc, char *argv[]) {
 		//wait
         SDL_Delay(16);
 	}
-    
+
 	//quit SDL
 	printf("end reached");
 	SDL_DestroyRenderer(renderer);
 	SDL_Quit();
-
+	
     return 0;
 }
 

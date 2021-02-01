@@ -1,5 +1,5 @@
 #include "mainfunc.h"
-
+#define pi 3.14159265358979323846264338379
 //compare hitbox and a hitbox list
 CompareReturn CompareHitbox(Hitbox **ListObjects) {
 	CompareReturn final;
@@ -59,38 +59,21 @@ CompareReturn CompareHitbox(Hitbox **ListObjects) {
 	return final;
 }
 
-//Create a texture from image path (char list)
-SDL_Texture *Loading(SDL_Renderer *renderer, char Image[]) {
-	SDL_Surface *buffer = SDL_LoadBMP(Image);
-	SDL_Texture *Texture = SDL_CreateTextureFromSurface(renderer, buffer);
-	return Texture;
-}
-
 //print the scene
-void PrintHero(SDL_Renderer *renderer, Hitbox **ListObjects, SDL_Texture *ListTexture[], int IncrHerbe) {
+void PrintHero(SDL_Renderer *renderer, Hitbox **ListObjects, SDL_Texture ***ListTexture, int IncrHerbe) {
 
 	//clearing
 	SDL_RenderClear(renderer);
-
+	
 	//print background
     	SDL_Rect RectFond = {ListObjects[1][0].centrx-ListObjects[1][0].sizex/2,
 		ListObjects[1][0].centry-ListObjects[1][0].sizey/2,ListObjects[1][0].sizex,ListObjects[1][0].sizey};
-	SDL_RenderCopy(renderer, ListTexture[2], NULL, &RectFond);
-
-
-	/*print hitboxs
-	for (int i=0; i<NBR_OBS; i++) {
-        for (int j=0; j<NBR_OBJ; i++) {
-	CreateRectangle(renderer,
-		ListObjects[i].centrx,ListObjects[i].centry,
-		ListObjects[i].sizex,ListObjects[i].sizey,
-		ListObjects[i].r,ListObjects[i].g,ListObjects[i].b,
-		ListObjects[i].a,ListObjects[i].fill);
-	}*/
+	SDL_RenderCopy(renderer, ListTexture[1][0], NULL, &RectFond);
+	
 	//create Hero image
 	SDL_Rect RectangleHero= {ListObjects[0][0].centrx-ListObjects[0][0].sizex/2,
 		ListObjects[0][0].centry-ListObjects[0][0].sizey/2,ListObjects[0][0].sizex,ListObjects[0][0].sizey};
-
+	
 	// create and add Obstacle to renderer
 	SDL_Rect ListRectObstacle[NBR_OBS];
 	//add Wood
@@ -98,20 +81,32 @@ void PrintHero(SDL_Renderer *renderer, Hitbox **ListObjects, SDL_Texture *ListTe
         SDL_Rect RectObstacle = {ListObjects[2][i].centrx-ListObjects[2][i].sizex/2,
         ListObjects[2][i].centry-ListObjects[2][i].sizey/2,ListObjects[2][i].sizex,ListObjects[2][i].sizey};
         ListRectObstacle[i] = RectObstacle;
-        SDL_RenderCopy(renderer, ListTexture[1], NULL, &ListRectObstacle[i]);
+        SDL_RenderCopy(renderer, ListTexture[2][0], NULL, &ListRectObstacle[i]);
     }
-
+	
 	//add Hero to renderer
-	SDL_RenderCopy(renderer, ListTexture[0], NULL, &RectangleHero);
-
+	SDL_RenderCopy(renderer, ListTexture[0][0], NULL, &RectangleHero);
+	
     //add Herbe only
     for (int i=0; i<100; i++) {
         SDL_Rect RectObstacle = {ListObjects[3][i].centrx-ListObjects[3][i].sizex/2,
-        (ListObjects[3][i].centry-ListObjects[3][i].sizey/2)-55,ListObjects[3][i].sizex,ListObjects[3][i].sizey};
+        (ListObjects[3][i].centry-ListObjects[3][i].sizey/2)-40,ListObjects[3][i].sizex,ListObjects[3][i].sizey};
         ListRectObstacle[i] = RectObstacle;
-        SDL_RenderCopy(renderer, ListTexture[(IncrHerbe/3)%440+3], NULL, &ListRectObstacle[i]);
+        SDL_RenderCopy(renderer, ListTexture[3][(IncrHerbe/3)%440], NULL, &ListRectObstacle[i]);
     }
-
+    
+    //print hitboxs
+	for (int i=0; i<NBR_OBJ; i++) {
+        for (int j=0; j<ListObjects[i][0].LengthList; j++) {
+	Rectangle(renderer,
+		ListObjects[i][j].centrx,ListObjects[i][j].centry,
+		ListObjects[i][j].sizex,ListObjects[i][j].sizey,(-pi/4),
+		ListObjects[i][j].r,ListObjects[i][j].g,ListObjects[i][j].b,
+		ListObjects[i][j].a);
+		      
+        }
+	}
+	
 	//printing
 	SDL_RenderPresent(renderer);
 
@@ -146,7 +141,7 @@ Hitbox Move(SDL_Renderer *renderer,Hitbox subject,int speed, int direction) {
 //main movement function for the charactere
 Hitbox MoveHero(SDL_Renderer *renderer,
 	Hitbox **ListObjects,
-	SDL_Event event, SDL_Texture *ListTexture[],
+	SDL_Event event, SDL_Texture ***ListTexture,
 	int RESX, int RESY, int* p_IncrHerbe) {
 
 	int Jump_call = 0;
@@ -238,6 +233,8 @@ Hitbox MoveHero(SDL_Renderer *renderer,
                             }
                         }
                     }
+
+
                 else {
 						//hero motion right
 						ListObjects[0][0] =  Move(renderer, ListObjects[0][0], 1, EAST);

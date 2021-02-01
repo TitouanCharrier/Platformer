@@ -52,10 +52,17 @@
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="rsc/Obstacle.bmp" />
 		<Unit filename="rsc/external-content.bmp" />
 		<Unit filename="rsc/linux-1598424452826-2734.bmp" />
-		<Unit filename="rsc/obstacle.bmp" />
 		<Unit filename="rsc/obstacle.png" />
+		<Unit filename="src/Bank.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Bank.h" />
+		<Unit filename="src/BankTexture.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="src/mainfunc.c">
 			<Option compilerVar="CC" />
 		</Unit>

@@ -4,13 +4,14 @@ typedef struct Hitbox {
 	SDL_Renderer *renderer;
 	int centrx;
 	int centry;
-	int sizex;
-    int sizey;
+	long int sizex;
+    long int sizey;
 	int r;
 	int g;
 	int b;
 	int a;
 	bool fill;
+	int LengthList;
 }Hitbox;
 
 typedef struct Rect {
@@ -36,3 +37,4 @@ typedef struct Couple {
 	int RESX;
 	int RESY;
 }Couple;
+

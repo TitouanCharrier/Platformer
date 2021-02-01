@@ -11,6 +11,7 @@ typedef struct Hitbox {
 	int b;
 	int a;
 	bool fill;
+	int LengthList;
 }Hitbox;
 
 typedef struct Rect {
@@ -36,3 +37,4 @@ typedef struct Couple {
 	int RESX;
 	int RESY;
 }Couple;
+

@@ -1,0 +1,11 @@
+ID :
+	T_ID : Type_ID (Type of the object and ID of the list who contains it)
+	R_ID : Relative_ID (place of the object into his Type_List)
+
+Objects :
+
+	T_ID 0 : Character
+	T_ID 1 : Wallpaper
+	T_ID 2 : Wood crate
+	T_ID 3 : Grass bloc
+

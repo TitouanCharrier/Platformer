@@ -1,1 +1,2 @@
-rsc/Fond/Fond.bmp
+rsc/Fond/Fond.bmp$
+rsc/Fond/Fond2.bmp$

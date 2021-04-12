@@ -1,11 +1,16 @@
+#ifndef _STRUCT_H
+#define _STRUCT_H
+
 typedef int bool;
 
 typedef struct Hitbox {
+	int T_ID;
+	int R_ID;
 	SDL_Renderer *renderer;
-	int centrx;
-	int centry;
-	int sizex;
-    int sizey;
+	float centrx;
+	float centry;
+	float sizex;
+    float sizey;
 	int r;
 	int g;
 	int b;
@@ -45,3 +50,10 @@ typedef struct BorderReturn {
 	int down;
 }BorderReturn;
 
+typedef struct Increment {
+	int Herbe;
+	int Hero;
+	int StateHero;
+}Increment;
+
+#endif

@@ -1,3 +1,6 @@
+#ifndef _MAINFUNC_H
+#define _MAINFUNC_H
+
 #include "../lib/geometrie_SDL2.h"
 #include "settings.h"
 #include "Bank.h"
@@ -8,13 +11,13 @@ CompareReturn CompareHitbox(Hitbox **ListObjects);
 
 SDL_Texture *Loading(SDL_Renderer *renderer, char Image[]);
 
-void PrintHero(SDL_Renderer *renderer, Hitbox **ListObjects, SDL_Texture ***ListTexture, int IncrHerbe);
+void PrintHero(SDL_Renderer *renderer, Hitbox **ListObjects, SDL_Texture ***ListTexture, Increment *Incr);
 
 Hitbox Collision(Hitbox **ListObjects, int, int);
 
 Hitbox Move(SDL_Renderer *renderer,Hitbox subject,int speed, int direction);
 
-Hitbox MoveHero(SDL_Renderer *renderer, Hitbox **ListObjects, SDL_Event event, SDL_Texture ***ListTexture,int RESX, int RESY, int* p_IncrHerbe);
+Hitbox MoveHero(SDL_Renderer *renderer, Hitbox **ListObjects, SDL_Event event, SDL_Texture ***ListTexture,int RESX, int RESY, Increment *Incr);
 
 Hitbox **LoadObjects(int WIDTH, int HEIGHT);
 
@@ -28,4 +31,10 @@ SDL_Texture **LoadOneTexture(SDL_Renderer *renderer, char file[], int NumberFram
 
 SDL_Texture ***LoadTexture(SDL_Renderer *renderer);
 
-BorderReturn BorderMotion(Hitbox **ListObjects,int RESX, int RESY);
+//Bank.h
+
+Hitbox **LoadObjects(int WIDTH, int HEIGHT);
+
+Hitbox **LoadMap(int WIDTH, int HEIGHT, char *file_map, int NBR_Types);
+
+#endif

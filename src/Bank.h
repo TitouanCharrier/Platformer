@@ -1,4 +1,6 @@
-#define Hero ListObjects[0]
-#define Hero ListObjects[0]
-#define Hero ListObjects[0]
+#ifndef BANK_H
+#define BANK_H
 
+
+
+#endif

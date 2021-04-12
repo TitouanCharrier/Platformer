@@ -1,3 +1,6 @@
+#ifndef _GEOMETRIE_SDL2_H
+#define _GEOMETRIE_SDL2_H
+
 #include <SDL2/SDL.h>
 #include <math.h>
 #include <stdio.h>
@@ -18,12 +21,12 @@ void CreateCircle(SDL_Renderer *renderer, int centrx, int centry, int ray, int r
 
 int CreateRectangle(SDL_Renderer *renderer, int centrx, int centry, int sizex, int sizey, int r, int g, int b, int a, bool fill);
 
-
-
 void Rectangle(SDL_Renderer *renderer,int centrx, int centry, int sizex, int sizey, float rot, int r, int g, int b, int a);
 
 void Polygone(SDL_Renderer *renderer,int centrx, int centry, int rayon, int cote, float rot, int r, int g, int b, int a);
-	
+
 void Circle(SDL_Renderer *renderer, int centrx, int centry, int rayon, int r, int g, int b, int a);
 
 int Detect_KeyDown(SDL_Event event, int touche);
+
+#endif

@@ -1,7 +1,6 @@
 #include "src/mainfunc.h"
 
 int main(int argc, char *argv[]) {
-    printf("debug1");
 	//starting SL2
 	SDL_Init(SDL_INIT_VIDEO);
 
@@ -23,8 +22,11 @@ int main(int argc, char *argv[]) {
 	SDL_GetCurrentDisplayMode(0, &Screen);
 	int WIDTH = Screen.w;
 	int HEIGHT = Screen.h;
-	int IncrHerbe = 3;
-	int *p_IncrHerbe = &IncrHerbe;
+	Increment increment;
+	Increment *Incr = &increment;
+        Incr->Herbe = 0;
+        Incr->Hero = 0;
+	
 	//set window and renderer
 	window = SDL_CreateWindow("name",0,0,WIDTH,HEIGHT,0);
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
@@ -34,16 +36,17 @@ int main(int argc, char *argv[]) {
 
 	//set var to run the main while
 	bool run = 1;
-
-    //loading objects
-    Hitbox **ListObjects = LoadObjects(WIDTH,HEIGHT);
-
+    
     //load texture
     SDL_Texture ***ListTextures = LoadTexture(renderer);
-   	 
+
+	//loading objects
+    Hitbox **ListObjects = LoadMap(WIDTH, HEIGHT, "map/Test_1.txt", 4);
+    //Hitbox **ListObjects = LoadObjects(WIDTH,HEIGHT);
+	printf("debug1\n");
 	//printing scene
-	PrintHero(renderer, ListObjects, ListTextures, *p_IncrHerbe);
-	
+	PrintHero(renderer, ListObjects, ListTextures, Incr);
+	printf("dubug2\n");
 	//main while
 	while (run) {
 
@@ -51,22 +54,26 @@ int main(int argc, char *argv[]) {
 		while (SDL_PollEvent(&event)) {
 
             //call to the function who manage hero's movements
-            ListObjects[0][0] = MoveHero(renderer, ListObjects, event, ListTextures,WIDTH,HEIGHT, p_IncrHerbe);
+            ListObjects[0][0] = MoveHero(renderer, ListObjects, event, ListTextures,WIDTH,HEIGHT, Incr);
 
             //closing window
             if (event.key.keysym.sym == SDLK_ESCAPE) run = 0;
 
 		}
+		//change jump status to standing
+        Incr->StateHero = 0;
 		//print scene
-		PrintHero(renderer, ListObjects, ListTextures, *p_IncrHerbe);
-		*p_IncrHerbe += 1;
-
+		PrintHero(renderer, ListObjects, ListTextures, Incr);
+		Incr->Herbe += 1;
+	
 		//wait
-        SDL_Delay(16);
+        //SDL_Delay(16);
 	}
-
+	
 	//quit SDL
-	printf("end reached");
+	printf("end reached\n");
+	//free(ListObjects);
+	free(ListTextures);
 	SDL_DestroyRenderer(renderer);
 	SDL_Quit();
 	

@@ -1,0 +1,21 @@
+#!/usr/bin/zsh
+convert 0001.png 0001.bmp
+convert 0002.png 0002.bmp
+convert 0003.png 0003.bmp
+convert 0004.png 0004.bmp
+convert 0005.png 0005.bmp
+convert 0006.png 0006.bmp
+convert 0007.png 0007.bmp
+convert 0008.png 0008.bmp
+convert 0009.png 0009.bmp
+convert 0010.png 0010.bmp
+convert 0011.png 0011.bmp
+convert 0012.png 0012.bmp
+convert 0013.png 0013.bmp
+convert 0014.png 0014.bmp
+convert 0015.png 0015.bmp
+convert 0016.png 0016.bmp
+convert 0017.png 0017.bmp
+convert 0018.png 0018.bmp
+convert 0019.png 0019.bmp
+convert 0020.png 0020.bmp

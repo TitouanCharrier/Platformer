@@ -1,1 +1,0 @@
-rsc/Personnage/Hero.bmp

@@ -20,7 +20,7 @@ int main(int argc, char *argv[]) {
 
 	SDL_DisplayMode Screen;
 	SDL_GetCurrentDisplayMode(0, &Screen);
-	int WIDTH = Screen.w;
+	int WIDTH = Screen.w/2;
 	int HEIGHT = Screen.h;
 	Increment increment;
 	Increment *Incr = &increment;
@@ -36,6 +36,8 @@ int main(int argc, char *argv[]) {
 
 	//set var to run the main while
 	bool run = 1;
+	int v_God = 0;
+	int *God = &v_God;
     
     //load texture
     SDL_Texture ***ListTextures = LoadTexture(renderer);
@@ -54,7 +56,13 @@ int main(int argc, char *argv[]) {
 		while (SDL_PollEvent(&event)) {
 
             //call to the function who manage hero's movements
-            ListObjects[0][0] = MoveHero(renderer, ListObjects, event, ListTextures,WIDTH,HEIGHT, Incr);
+            if (*God == 0) {
+            ListObjects[0][0] = MoveHero(renderer, ListObjects, event, ListTextures,WIDTH,HEIGHT, Incr, God);
+        	}
+
+        	else {	
+            ListObjects[0][0] = GodMod(renderer, ListObjects, event, ListTextures,WIDTH,HEIGHT, Incr, God);
+			}
 
             //closing window
             if (event.key.keysym.sym == SDLK_ESCAPE) run = 0;

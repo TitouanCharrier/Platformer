@@ -17,7 +17,9 @@ Hitbox Collision(Hitbox **ListObjects, int, int);
 
 Hitbox Move(SDL_Renderer *renderer,Hitbox subject,int speed, int direction);
 
-Hitbox MoveHero(SDL_Renderer *renderer, Hitbox **ListObjects, SDL_Event event, SDL_Texture ***ListTexture,int RESX, int RESY, Increment *Incr);
+Hitbox MoveHero(SDL_Renderer *renderer, Hitbox **ListObjects, SDL_Event event, SDL_Texture ***ListTexture,int RESX, int RESY, Increment *Incr, int *God);
+
+Hitbox GodMod(SDL_Renderer *renderer, Hitbox **ListObjects, SDL_Event event, SDL_Texture ***ListTexture, int RESX, int RESY, Increment *Incr, int *God);
 
 Hitbox **LoadObjects(int WIDTH, int HEIGHT);
 

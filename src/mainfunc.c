@@ -198,7 +198,7 @@ Hitbox Move(SDL_Renderer *renderer,Hitbox subject,int speed, int direction) {
 Hitbox MoveHero(SDL_Renderer *renderer,
 	Hitbox **ListObjects,
 	SDL_Event event, SDL_Texture ***ListTexture,
-	int RESX, int RESY, Increment *Incr) {
+	int RESX, int RESY, Increment *Incr, int *God) {
 
 	int Jump_call = 0;
 	int MvRight = 0;
@@ -215,6 +215,12 @@ Hitbox MoveHero(SDL_Renderer *renderer,
 
 				//detect exit call
 				if (event.key.keysym.sym == SDLK_ESCAPE) break;
+                
+                //switch to god mod
+                if (event.key.keysym.sym == SDLK_g) {
+                    *God = 1;
+                    break;
+                }
 
 				//detect jump call
 				if (event.key.keysym.sym == SDLK_SPACE
@@ -349,6 +355,175 @@ Hitbox MoveHero(SDL_Renderer *renderer,
 	}
         SDL_PollEvent(&event);
 	return ListObjects[0][0];
+
+}
+
+Hitbox GodMod(SDL_Renderer *renderer,
+    Hitbox **ListObjects,
+    SDL_Event event, SDL_Texture ***ListTexture,
+    int RESX, int RESY, Increment *Incr, int *God) {
+
+    int MvUp = 0;
+    int MvRight = 0;
+    int MvLeft = 0;
+    int MvDown = 0;
+
+    //detect event type
+    if (event.type == SDL_KEYDOWN) {
+
+        //continue to end of movement
+        do {
+            if (event.type == SDL_KEYDOWN) {
+
+                //detect exit call
+                if (event.key.keysym.sym == SDLK_ESCAPE) break;
+
+                //switch to normal mod
+                if (event.key.keysym.sym == SDLK_g) {
+                    *God = 0;
+                    break;
+                }
+
+                //detect start arrow call
+                if (event.key.keysym.sym == SDLK_RIGHT) {
+                    MvRight = 1;
+                    MvLeft = 0;
+                    Incr->StateHero = 3;
+
+                }
+                else if (event.key.keysym.sym == SDLK_LEFT) {
+                    MvLeft = 1;
+                    MvRight = 0;
+                    Incr->StateHero = 4;
+
+                }
+                else if (event.key.keysym.sym == SDLK_UP) {
+                    MvUp = 1;
+                    MvDown = 0;
+
+                }
+                else if (event.key.keysym.sym == SDLK_DOWN) {
+                    MvUp = 0;
+                    MvDown = 1;
+
+                }
+            }
+
+            //detect end arrow call
+            if (event.type == SDL_KEYUP) {
+                if (event.key.keysym.sym == SDLK_LEFT) {
+                    MvLeft = 0;
+                    if (Incr->StateHero != 1) {
+                        Incr->StateHero = 0;
+                    }
+                }
+                if (event.key.keysym.sym == SDLK_RIGHT) {
+                    MvRight = 0;
+                    if (Incr->StateHero != 1) {
+                        Incr->StateHero = 0;
+                    }
+                }
+                if (event.key.keysym.sym == SDLK_UP) {
+                    MvUp = 0;
+                }
+                if (event.key.keysym.sym == SDLK_DOWN) {
+                    MvDown = 0;
+                }
+            }
+
+
+            //Displacement
+            for(int j=0; j<HERO_SPEED; j++) {
+
+                if (MvRight == 1) {
+
+                // borders motion right
+                    if (ListObjects[0][0].centrx > RESX-RESX/3) {
+                        for (int j=2; j<NBR_OBJ; j++) {
+                            for (int i=0; i<ListObjects[j][0].LengthList; i++) {
+                                ListObjects[j][i].centrx -= 1;
+                            }
+                        }
+                    }
+
+
+                else {
+                        //hero motion right
+                        ListObjects[0][0] =  Move(renderer, ListObjects[0][0], 1, EAST);
+                    }
+                }
+
+                if (MvLeft == 1) {
+
+                    //borders motion left
+                    if (ListObjects[0][0].centrx < RESX/3) {
+                        for (int j=2; j<NBR_OBJ; j++) {
+                            for (int i=0; i<ListObjects[j][0].LengthList; i++) {
+                                ListObjects[j][i].centrx += 1;
+                            }
+                        }
+                    }
+
+                    else {
+                        //hero motion left
+                        ListObjects[0][0] =  Move(renderer, ListObjects[0][0], 1, WEST);
+                    }
+                }
+
+                if (MvUp == 1) {
+
+                    //borders motion up
+                    if (ListObjects[0][0].centry < RESY/3) {
+                        for (int j=2; j<NBR_OBJ; j++) {
+                            for (int i=0; i<ListObjects[j][0].LengthList; i++) {
+                                ListObjects[j][i].centry += 1;
+                            }
+                        }
+                    }
+
+                    else {
+                        //hero motion up
+                        ListObjects[0][0] =  Move(renderer, ListObjects[0][0], 1, NORTH);
+                    }
+                }
+
+                if (MvDown == 1) {
+
+                    //borders motion down
+                    if (ListObjects[0][0].centry > RESY-RESY/3) {
+                        for (int j=2; j<NBR_OBJ; j++) {
+                            for (int i=0; i<ListObjects[j][0].LengthList; i++) {
+                                ListObjects[j][i].centry -= 1;
+                            }
+                        }
+                    }
+
+                    else {
+                        //hero motion down
+                        ListObjects[0][0] =  Move(renderer, ListObjects[0][0], 1, SOUTH);
+                    }
+                }
+
+            }
+
+
+            if (MvRight == 1 && Incr->StateHero == 0) Incr->StateHero = 3;
+            else if (MvLeft == 1 && Incr->StateHero == 0) Incr->StateHero = 4;
+            //other methode to fix collision
+            //ListObjects[0][0] = Collision(ListObjects[0][0], ListObjects, MvLeft, MvRight);
+
+            //print the scene
+            PrintHero(renderer,ListObjects, ListTexture, Incr);
+            Incr->Herbe += 1;
+            Incr->Hero+=1;
+            //detect event
+            SDL_PollEvent(&event);
+
+
+        } while (MvLeft == 1 || MvRight == 1 || MvUp == 1 || MvDown == 1);
+    }
+        SDL_PollEvent(&event);
+    return ListObjects[0][0];
 
 }
 
